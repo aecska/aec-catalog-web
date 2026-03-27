@@ -1,0 +1,185 @@
+<section id="testimonials">
+  <div class="container">
+    <div class="section-intro fade-up">
+      <div class="section-label">Prueba social</div>
+      <h2>No lo decimos nosotros,<br />lo dicen nuestros chats</h2>
+      <p class="section-sub">Transparencia total. Así entregamos nuestros packs todos los días.</p>
+    </div>
+
+    <!-- Scrollable Proof Gallery with Arrows -->
+    <div class="proof-gallery-wrapper fade-up">
+      <button id="prevBtn" class="proof-btn prev" aria-label="Anterior">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <button id="nextBtn" class="proof-btn next" aria-label="Siguiente">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+
+      <div id="proofGallery" class="proof-gallery">
+        <!-- Imágenes de marcadores de posición con estilo premium -->
+        <div class="proof-item">
+          <div class="proof-placeholder">
+            <span>Verified Purchase</span>
+            <small>WhatsApp Chat #1024</small>
+          </div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-placeholder">
+            <span>Verified Purchase</span>
+            <small>WhatsApp Chat #1025</small>
+          </div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-placeholder">
+            <span>Verified Purchase</span>
+            <small>WhatsApp Chat #1026</small>
+          </div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-placeholder">
+            <span>Verified Purchase</span>
+            <small>WhatsApp Chat #1027</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const gallery = document.getElementById('proofGallery');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  if (gallery && prevBtn && nextBtn) {
+    const scrollAmount = 300;
+    
+    prevBtn.addEventListener('click', () => {
+      gallery.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      gallery.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+  }
+
+  // Intersection Observer for fade-up
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+<style>
+  #testimonials {
+    background: var(--black);
+    padding: 100px 40px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .section-intro { margin-bottom: 60px; }
+
+  h2 {
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 16px;
+    font-family: var(--font-display);
+  }
+
+  .section-sub {
+    font-size: 16px;
+    color: var(--subtle);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .proof-gallery-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .proof-gallery {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding: 20px 0 40px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .proof-gallery::-webkit-scrollbar { display: none; }
+
+  .proof-item {
+    flex: 0 0 300px;
+    scroll-snap-align: center;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--card);
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .proof-item:hover { transform: translateY(-5px); border-color: var(--green); }
+
+  .proof-placeholder {
+    aspect-ratio: 3/4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--card) 0%, var(--black) 100%);
+    color: var(--subtle);
+    font-family: var(--font-mono);
+    gap: 10px;
+  }
+
+  .proof-placeholder span { color: var(--green); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+
+  .proof-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid var(--border);
+    color: var(--white);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.2s;
+  }
+
+  .proof-btn:hover { background: var(--green); color: var(--black); border-color: var(--green); }
+
+  .proof-btn.prev { left: -24px; }
+  .proof-btn.next { right: -24px; }
+
+  @media (max-width: 1300px) {
+    .proof-btn.prev { left: 10px; }
+    .proof-btn.next { right: 10px; }
+  }
+
+  @media (max-width: 600px) {
+    #testimonials { padding: 70px 20px; }
+    .proof-item { flex: 0 0 260px; }
+  }
+</style>

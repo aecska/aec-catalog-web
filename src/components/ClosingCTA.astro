@@ -1,0 +1,86 @@
+<section id="closing">
+  <div class="closing-content fade-up">
+    <span class="closing-eyebrow">¿Qué estás esperando?</span>
+    <h2>¿Listo para dejar de <span class="dim">perder<br />el tiempo</span> buscando recursos?</h2>
+    <a href="#catalog" class="btn-primary" style="display:inline-flex; font-size:16px; padding: 18px 44px;">
+      Ir al Catálogo
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  #closing {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 120px 40px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #closing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(61, 220, 132, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .closing-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .closing-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 6vw, 80px);
+    line-height: 1;
+    margin-bottom: 48px;
+    color: var(--white);
+    text-align: center;
+  }
+
+  h2 .dim {
+    color: var(--subtle);
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: var(--black);
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 3px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(61, 220, 132, 0.25);
+  }
+
+  @media (max-width: 600px) {
+    #closing { padding: 80px 20px; }
+  }
+</style>

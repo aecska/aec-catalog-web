@@ -1,4 +1,5 @@
 :root {
+  /* Tokens de Diseño AEC */
   --black: #080808;
   --dark: #0f0f0f;
   --card: #141414;
@@ -12,14 +13,14 @@
   --green-dim: #1a4d35;
   --red: #ff3b3b;
   --gold: #d4a843;
+
+  /* Typography */
   --font-display: 'Bebas Neue', sans-serif;
   --font-body: 'DM Sans', sans-serif;
   --font-mono: 'Space Mono', monospace;
 }
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -64,9 +65,19 @@ body::before {
   border-radius: 2px;
 }
 
-/* Utils */
-.accent { color: var(--green); }
-.line2 { color: var(--subtle); }
+/* ===== ANIMATIONS ===== */
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== UTILITIES ===== */
 .section-label {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -79,6 +90,7 @@ body::before {
   justify-content: center;
   gap: 10px;
 }
+
 .section-label::before,
 .section-label::after {
   content: '';
@@ -87,29 +99,8 @@ body::before {
   background: var(--green);
 }
 
-h1, h2, h3 { font-family: var(--font-display); }
+.accent { color: var(--green); }
 
-/* Buttons */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--green);
-  color: var(--black);
-  padding: 16px 34px;
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-  box-shadow: 0 0 0 0 rgba(61, 220, 132, 0.4);
-}
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(61, 220, 132, 0.25);
-  opacity: 0.93;
+@media (max-width: 600px) {
+  body { padding-bottom: 80px; }
 }

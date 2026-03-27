@@ -1,0 +1,133 @@
+<section id="process">
+  <div class="section-label">Proceso de compra</div>
+  <h2>Tu tiempo vale oro.<br />Así de rápido es comprar:</h2>
+  <p class="section-sub">4 pasos simples. Sin fricciones, sin esperas innecesarias.</p>
+
+  <div class="steps">
+    <div class="step fade-up">
+      <div class="step-num">01</div>
+      <div class="step-icon">🖱️</div>
+      <div class="step-title">Elige tu pack</div>
+      <p class="step-desc">Explora el catálogo y haz clic en <strong>"Comprar por WhatsApp"</strong> en el pack que quieras.</p>
+    </div>
+    <div class="step fade-up" style="transition-delay:0.1s">
+      <div class="step-num">02</div>
+      <div class="step-icon">💬</div>
+      <div class="step-title">Escríbenos</div>
+      <p class="step-desc">Se abrirá un chat con mensaje automático. Te daremos los <strong>métodos de pago disponibles</strong>.</p>
+    </div>
+    <div class="step fade-up" style="transition-delay:0.2s">
+      <div class="step-num">03</div>
+      <div class="step-icon">💳</div>
+      <div class="step-title">Confirma tu pago</div>
+      <p class="step-desc">Envíanos el comprobante junto con tu <strong>correo de Gmail</strong> para compartirte el acceso.</p>
+    </div>
+    <div class="step fade-up" style="transition-delay:0.3s">
+      <div class="step-num">04</div>
+      <div class="step-icon">📁</div>
+      <div class="step-title">Acceso Inmediato</div>
+      <p class="step-desc">En minutos recibirás el link a tu carpeta de <strong>Google Drive</strong> para descargar todo.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  #process {
+    background: var(--dark);
+    padding: 100px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h2 {
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 16px;
+    font-family: var(--font-display);
+  }
+
+  .section-sub {
+    font-size: 16px;
+    color: var(--subtle);
+    font-weight: 300;
+    max-width: 520px;
+    margin: 0 auto 60px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .step {
+    background: var(--dark);
+    padding: 40px 32px;
+    position: relative;
+    transition: background 0.3s;
+    text-align: left;
+  }
+
+  .step:hover {
+    background: var(--card);
+  }
+
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 80px;
+    color: rgba(255, 255, 255, 0.04);
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .step-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(61, 220, 132, 0.1);
+    border: 1px solid rgba(61, 220, 132, 0.2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: var(--green);
+    font-size: 22px;
+  }
+
+  .step-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: var(--subtle);
+    line-height: 1.6;
+  }
+
+  .step-desc strong { color: var(--green); }
+
+  @media (max-width: 1024px) {
+    .steps { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .steps { grid-template-columns: 1fr; }
+    #process { padding: 70px 20px; }
+  }
+</style>
