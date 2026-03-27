@@ -1,0 +1,60 @@
+---
+const currentYear = new Date().getFullYear();
+---
+<footer>
+  <div class="footer-links">
+    <a href="#">Términos y Condiciones</a>
+    <a href="#">Políticas de Privacidad</a>
+    <a href="#">Preguntas Frecuentes (FAQ)</a>
+  </div>
+  <div class="footer-bottom">
+    <span>© {currentYear} Ingeniería Extrema Media. Todos los derechos reservados.</span>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 36px 40px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .footer-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover {
+    color: var(--subtle);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    width: 100%;
+    padding-top: 20px;
+    text-align: center;
+  }
+
+  .footer-bottom span {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+</style>

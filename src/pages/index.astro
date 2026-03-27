@@ -1,0 +1,264 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Marquee from '../components/Marquee.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { supabase } from '../lib/supabase';
+
+// Fetch featured products from Supabase (Dynamic)
+const { data: featuredPacks, error } = await supabase
+  .from('packs')
+  .select(`
+    *,
+    categories (
+      name
+    )
+  `)
+  .eq('is_featured', true)
+  .eq('is_active', true)
+  .limit(10);
+
+if (error) {
+  console.error('Error fetching featured packs:', error);
+}
+---
+
+<Layout title="AEC Resources — Contenido Premium para Arquitectos">
+  <Navbar />
+  
+  <main>
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-badge">Packs listos para usar: Arquitectura, Ingeniería y Construcción</div>
+        <h1>
+          Llegaste al
+          <span class="accent">lugar</span>
+          <span class="line2">indicado.</span>
+        </h1>
+        <p class="hero-sub">
+          Nosotros ya filtramos, organizamos y empaquetamos el contenido premium que necesitas.
+          <strong>Cero membresías, un solo pago, acceso para siempre.</strong>
+        </p>
+        <div class="hero-actions">
+          <a href="#catalog" class="btn-primary">
+            Ver los Mega Packs
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <div class="trust-belt">
+            <div class="trust-item"><span>⚡</span> Acceso inmediato vía Google Drive</div>
+            <div class="trust-sep">|</div>
+            <div class="trust-item"><span>🔒</span> Compra segura por WhatsApp</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Marquee />
+
+    <!-- ESTRENOS (DYNAMIC CATALOG) -->
+    <section id="catalog">
+      <div class="catalog-header">
+        <div>
+          <div class="section-label">Estrenos Recientes</div>
+          <h2>MEGA PACKS <span class="accent">PRO</span></h2>
+        </div>
+        <a href="/megapacks" class="view-all">
+          Ver Biblioteca Completa
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="products-grid">
+        {featuredPacks && featuredPacks.map((pack) => (
+          <ProductCard 
+            name={pack.name}
+            slug={pack.slug}
+            price={pack.price}
+            image_url={pack.image_url}
+            badge={pack.badge}
+            category={pack.categories?.name || 'Pack AEC'}
+          />
+        ))}
+        {(!featuredPacks || featuredPacks.length === 0) && (
+          <div class="empty-state">No hay packs destacados en este momento.</div>
+        )}
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 40px 80px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(61, 220, 132, 0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(212, 168, 67, 0.04) 0%, transparent 60%),
+      var(--black);
+  }
+
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(61, 220, 132, 0.1);
+    border: 1px solid rgba(61, 220, 132, 0.25);
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-size: clamp(60px, 10vw, 110px);
+    line-height: 0.92;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+
+  h1 .accent { color: var(--green); }
+  h1 .line2 { display: block; }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--light);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 44px;
+    text-align: center;
+  }
+
+  .hero-sub strong { color: var(--white); font-weight: 500; }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .trust-belt {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .trust-item {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--subtle);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .trust-sep { color: var(--border); }
+
+  #catalog {
+    padding: 100px 40px;
+    background: var(--black);
+  }
+
+  .catalog-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .view-all {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--green);
+    text-decoration: none;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s;
+  }
+
+  .view-all:hover { gap: 10px; }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    padding: 60px;
+    color: var(--subtle);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-align: center;
+    border: 1px dashed var(--border);
+  }
+
+  @media (max-width: 1200px) {
+    .products-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    #hero { padding: 100px 20px 60px; }
+    #catalog { padding: 70px 20px; }
+    .catalog-header { flex-direction: column; align-items: flex-start; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .products-grid { grid-template-columns: 1fr; }
+  }
+</style>

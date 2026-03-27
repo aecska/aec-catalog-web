@@ -1,0 +1,92 @@
+---
+---
+<div id="marquee">
+  <div class="marquee-track">
+    <div class="marquee-item">
+      <span class="sw-revit">Revit</span><span class="dot"></span>
+      <span class="sw-autocad">AutoCAD</span><span class="dot"></span>
+      <span class="sw-sketchup">SketchUp</span><span class="dot"></span>
+      <span class="sw-d5">D5 Render</span><span class="dot"></span>
+      <span class="sw-mel">Melamina</span><span class="dot"></span>
+      <span class="sw-excel">Excel</span><span class="dot"></span>
+      <span class="sw-3ds">3ds Max</span><span class="dot"></span>
+      <span class="sw-rhino">Rhino</span><span class="dot"></span>
+      <span class="sw-arch">ArchiCAD</span><span class="dot"></span>
+      <span class="sw-bl">Blender</span><span class="dot"></span>
+      <span class="sw-revit">Lumion</span><span class="dot"></span>
+      <span class="sw-autocad">Enscape</span><span class="dot"></span>
+      <span class="sw-sketchup">V-Ray</span><span class="dot"></span>
+      <span class="sw-d5">Photoshop</span><span class="dot"></span>
+      <span class="sw-mel">InDesign</span><span class="dot"></span>
+    </div>
+    <div class="marquee-item" aria-hidden="true">
+      <span class="sw-revit">Revit</span><span class="dot"></span>
+      <span class="sw-autocad">AutoCAD</span><span class="dot"></span>
+      <span class="sw-sketchup">SketchUp</span><span class="dot"></span>
+      <span class="sw-d5">D5 Render</span><span class="dot"></span>
+      <span class="sw-mel">Melamina</span><span class="dot"></span>
+      <span class="sw-excel">Excel</span><span class="dot"></span>
+      <span class="sw-3ds">3ds Max</span><span class="dot"></span>
+      <span class="sw-rhino">Rhino</span><span class="dot"></span>
+      <span class="sw-arch">ArchiCAD</span><span class="dot"></span>
+      <span class="sw-bl">Blender</span><span class="dot"></span>
+      <span class="sw-revit">Lumion</span><span class="dot"></span>
+      <span class="sw-autocad">Enscape</span><span class="dot"></span>
+      <span class="sw-sketchup">V-Ray</span><span class="dot"></span>
+      <span class="sw-d5">Photoshop</span><span class="dot"></span>
+      <span class="sw-mel">InDesign</span><span class="dot"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  #marquee {
+    position: relative;
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    overflow: hidden;
+  }
+
+  .marquee-track {
+    display: flex;
+    animation: marquee 28s linear infinite;
+    white-space: nowrap;
+  }
+
+  .marquee-item {
+    font-family: var(--font-display);
+    font-size: 32px;
+    letter-spacing: 3px;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-shrink: 0;
+  }
+
+  .marquee-item .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    opacity: 0.5;
+  }
+
+  .sw-revit { color: #4aade8; }
+  .sw-autocad { color: #e8a24a; }
+  .sw-sketchup { color: #e84a4a; }
+  .sw-d5 { color: var(--green); }
+  .sw-mel { color: #b07ad4; }
+  .sw-excel { color: #4ae87a; }
+  .sw-3ds { color: #e8d44a; }
+  .sw-rhino { color: #e84aae; }
+  .sw-arch { color: #4ae8d4; }
+  .sw-bl { color: #e87a4a; }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>
