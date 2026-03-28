@@ -1,6 +1,6 @@
 ---
-import { supabase } from '../lib/supabase';
-import ProductCard from './ProductCard.astro';
+import { supabase } from '../../lib/supabase';
+import ProductCard from '../shared/ProductCard.astro';
 
 // Consultar los 8 packs más destacados (4x2)
 const { data: packs, error } = await supabase
