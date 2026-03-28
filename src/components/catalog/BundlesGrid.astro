@@ -17,13 +17,14 @@ const { data: bundles, error } = await supabase
           <h3 class="bundle-title">{bundle.name}</h3>
           <p class="bundle-description">{bundle.hero_subtitle || 'Acceso total a la colección AEC profesional.'}</p>
           
-          <div class="bundle-pricing">
-            <div class="pricing-row">
-              {bundle.price_total && <span class="price-original">${bundle.price_total}</span>}
-              <span class="price-current"><sup>$</sup>{bundle.price_discount}</span>
-              <span class="discount-badge">AHORRAS {bundle.saving_percentage}%</span>
+            <div class="bundle-pricing">
+              <div class="pricing-row">
+                {bundle.price_total && <span class="price-original">${bundle.price_total}</span>}
+                <span class="price-current"><sup>$</sup>{bundle.price_discount}</span>
+                <span class="price-unit">USD</span>
+                <span class="discount-badge">AHORRAS {bundle.saving_percentage}%</span>
+              </div>
             </div>
-          </div>
 
           <div class="bundle-actions">
             <a href={`/bundle/${bundle.slug}`} class="btn-secondary">
@@ -156,6 +157,13 @@ const { data: bundles, error } = await supabase
     font-family: var(--font-display);
   }
 
+  .price-unit {
+    font-size: 11px;
+    color: #666;
+    font-weight: 600;
+    margin-left: 2px;
+  }
+
   .discount-badge {
     background: #ff4b4b;
     color: var(--white);
@@ -254,6 +262,16 @@ const { data: bundles, error } = await supabase
     .price-current { font-size: 26px; }
     .price-current sup { font-size: 14px; }
     .bundle-pricing { margin-bottom: 20px; }
+    .pricing-row { 
+      flex-direction: row; 
+      flex-wrap: wrap;
+      align-items: baseline; 
+      gap: 5px; 
+    }
+    .discount-badge {
+      width: 100%;
+      margin-top: 4px;
+    }
     .btn-primary { padding: 12px; }
   }
 </style>

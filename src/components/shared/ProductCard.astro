@@ -80,27 +80,29 @@ const fullStars = Math.floor(rating);
     <p class="card-desc">{hero_subtitle || 'Herramientas de alto nivel diseñadas para potenciar tus flujos de trabajo.'}</p>
     
     <div class="card-rating">
-      <div class="rating-info">
+      <div class="rating-row-stars">
         <div class="stars">
           {[...Array(5)].map((_, i) => (
             <span class={i < fullStars ? 'star active' : 'star'}>★</span>
           ))}
         </div>
         <span class="rating-val">{rating.toFixed(1)}</span>
-        <span class="votes-count js-votes-count">({votes.toLocaleString()})</span>
       </div>
       
-      <button class="btn-like js-like-btn" data-id={id} data-name={name} title="Me gusta">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-        </svg>
-      </button>
+      <div class="rating-row-votes">
+        <span class="votes-count js-votes-count">({votes.toLocaleString()})</span>
+        <button class="btn-like js-like-btn" data-id={id} data-name={name} title="Me gusta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+      </div>
     </div>
 
     {!isBundle && (
       <div class="card-price">
         {old_price && (
-          <div class="old-price-container">
+          <div class="old-price">
             <span class="old-currency">$</span>
             <span class="old-amount">{old_price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
           </div>
@@ -244,10 +246,11 @@ const fullStars = Math.floor(rating);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px; /* further reduced */
+    margin-bottom: 8px;
+    gap: 8px;
   }
 
-  .rating-info {
+  .rating-row-stars, .rating-row-votes {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -310,11 +313,11 @@ const fullStars = Math.floor(rating);
   .card-price {
     display: flex;
     align-items: baseline;
-    gap: 12px; /* horizontal gap between prices */
-    margin-bottom: 12px; /* further reduced */
+    gap: 12px;
+    margin-bottom: 12px;
   }
 
-  .old-price-container {
+  .old-price {
     display: flex;
     align-items: baseline;
     gap: 2px;
@@ -430,8 +433,29 @@ const fullStars = Math.floor(rating);
       margin-bottom: 8px;
     }
 
+    .card-rating {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .rating-row-stars, .rating-row-votes {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .card-price {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .old-price {
+      font-size: 11px;
+    }
+
     .amount {
-      font-size: 22px;
+      font-size: 20px;
     }
 
     .card-actions {
@@ -442,6 +466,15 @@ const fullStars = Math.floor(rating);
     .btn-details, .btn-buy {
       padding: 8px;
       font-size: 9px;
+    }
+
+    .btn-like {
+      padding: 4px;
+    }
+
+    .btn-like svg {
+      width: 16px;
+      height: 16px;
     }
   }
 </style>

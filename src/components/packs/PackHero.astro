@@ -289,9 +289,19 @@ const formatTitle = (title: string) => {
   }
 
   @media (max-width: 900px) {
+    #hero-pack { padding: 80px 20px 60px; }
     .hero-header-row { flex-direction: column; gap: 10px; }
     .stars-social { width: 100%; justify-content: center; }
-    .value-bar { border-radius: 20px; padding: 20px; gap: 16px; }
+    .value-bar { 
+      flex-direction: column; 
+      gap: 12px; 
+      padding: 20px; 
+      border-radius: 16px; 
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto 32px;
+    }
+    .value-item { width: 100%; justify-content: center; font-size: 13px; }
     .value-sep { display: none; }
     .btn-buy-giant { width: 100%; justify-content: center; padding: 20px; }
   }
