@@ -2,11 +2,6 @@
 const currentYear = new Date().getFullYear();
 ---
 <footer>
-  <div class="footer-nav">
-    <a href="/">Inicio</a>
-    <a href="/megapacks">Mega Packs</a>
-    <a href="/bundles">Bundles</a>
-  </div>
   <div class="footer-links">
     <a href="#">Términos y Condiciones</a>
     <a href="#">Políticas de Privacidad</a>
@@ -21,35 +16,17 @@ const currentYear = new Date().getFullYear();
   footer {
     background: var(--black);
     border-top: 1px solid var(--border);
-    padding: 36px 40px 28px;
+    padding: 60px 40px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-  }
-
-  .footer-nav {
-    display: flex;
     gap: 32px;
-    margin-bottom: 8px;
-  }
-
-  .footer-nav a {
-    font-size: 13px;
-    color: var(--white);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s;
-  }
-
-  .footer-nav a:hover {
-    color: var(--green);
   }
 
   .footer-links {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 24px;
     flex-wrap: wrap;
     justify-content: center;
   }
@@ -57,7 +34,7 @@ const currentYear = new Date().getFullYear();
   .footer-links a {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--muted);
+    color: #444;
     text-decoration: none;
     letter-spacing: 0.5px;
     transition: color 0.2s;
@@ -68,16 +45,18 @@ const currentYear = new Date().getFullYear();
   }
 
   .footer-bottom {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
     width: 100%;
-    padding-top: 20px;
+    max-width: 1200px;
+    padding-top: 32px;
     text-align: center;
   }
 
   .footer-bottom span {
     font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--muted);
+    font-size: 10px;
+    color: #333;
     letter-spacing: 0.3px;
+    text-transform: uppercase;
   }
 </style>
