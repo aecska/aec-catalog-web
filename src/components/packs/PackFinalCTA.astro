@@ -1,0 +1,138 @@
+---
+interface Props {
+  pack: any;
+  bundle?: any;
+}
+
+const { pack, bundle } = Astro.props;
+
+// The Price is already in USD in the database (e.g., 8).
+const priceUSD = pack.price ? Number(pack.price).toFixed(2) : '0.00';
+const accentColor = pack.categories?.accent_color || 'var(--green)';
+---
+
+<section id="final-cta">
+  <div class="container fade-up">
+    <div class="overtitle">— IMPULSO FINAL —</div>
+    <h2>¿LISTO PARA <span style={`color: ${accentColor}`}>TRANSFORMAR</span> TUS PROYECTOS?</h2>
+    <p class="subtitle">Obtén el <strong>{pack.name}</strong> hoy mismo y acelera tu carrera profesional.</p>
+
+    <div class="cta-actions">
+      <a href={`https://wa.me/573004481539?text=Hola,%20estoy%20interesado%20en%20el%20${encodeURIComponent(pack.name)}`} 
+         class="btn-primary" 
+         style={`background: ${accentColor}`}>
+        Quiero este Pack — ${priceUSD} USD
+      </a>
+      
+      {bundle ? (
+        <a href={`/bundle/${bundle.slug}`} class="btn-secondary">
+          Ver Bundle Completo
+        </a>
+      ) : (
+        <a href="/#packs" class="btn-secondary">
+          Ver todos los Packs
+        </a>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  #final-cta {
+    padding: 140px 40px;
+    background: #050505;
+    text-align: center;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .container {
+    max-width: 950px;
+    margin: 0 auto;
+  }
+
+  .overtitle {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0.8;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 6vw, 72px);
+    line-height: 1;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: -1px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: var(--subtle);
+    margin-bottom: 56px;
+    font-weight: 300;
+  }
+
+  .subtitle strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 20px 40px;
+    border-radius: 12px;
+    color: #000;
+    font-size: 16px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-body);
+  }
+
+  .btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-secondary {
+    padding: 20px 40px;
+    border-radius: 12px;
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.3s;
+    font-family: var(--font-body);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
+  }
+
+  @media (max-width: 768px) {
+    #final-cta { padding: 100px 20px; }
+    .cta-actions { flex-direction: column; }
+    .btn-primary, .btn-secondary { width: 100%; }
+    h2 { font-size: 36px; }
+  }
+</style>

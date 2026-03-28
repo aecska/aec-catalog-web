@@ -6,6 +6,9 @@ import PackHero from '../../components/packs/PackHero.astro';
 import PackDashboard from '../../components/packs/PackDashboard.astro';
 import PackDriveMockup from '../../components/packs/PackDriveMockup.astro';
 import PackBenefits from '../../components/packs/PackBenefits.astro';
+import PackBundleCTA from '../../components/packs/PackBundleCTA.astro';
+import PackFAQ from '../../components/packs/PackFAQ.astro';
+import PackFinalCTA from '../../components/packs/PackFinalCTA.astro';
 import { supabase } from '../../lib/supabase';
 
 export async function getStaticPaths() {
@@ -33,6 +36,22 @@ const { data: pack, error } = await supabase
 if (error || !pack) {
   return Astro.redirect('/404');
 }
+
+// Fetch associated bundle through bundle_packs
+const { data: bundleLink } = await supabase
+  .from('bundle_packs')
+  .select(`
+    bundles (
+      id,
+      name,
+      slug,
+      saving_percentage
+    )
+  `)
+  .eq('pack_id', pack.id)
+  .single();
+
+const bundle = bundleLink?.bundles;
 ---
 
 <Layout title={`${pack.name} — Ingeniería Extrema Media`}>
@@ -43,28 +62,9 @@ if (error || !pack) {
     <PackDashboard pack={pack} />
     <PackDriveMockup pack={pack} />
     <PackBenefits pack={pack} />
-
-    <!-- FAQ SECTION (MASTER DESIGN STYLE) -->
-    <section id="faq">
-      <div class="faq-container">
-        <div class="faq-header fade-up">
-          <div class="section-label">Resolviendo dudas</div>
-          <h2>PREGUNTAS <span style={`color: ${pack.categories?.accent_color || 'var(--green)'}`}>FRECUENTES</span></h2>
-        </div>
-        
-        <div class="faq-list">
-          {(pack.faq || [
-            { q: '¿Cómo recibo el contenido?', a: 'Inmediatamente después de confirmar tu pago por WhatsApp, te enviamos el enlace de acceso privado a Google Drive.' },
-            { q: '¿El pago es único?', a: 'Sí. Un solo pago y el acceso es para siempre, incluyendo futuras actualizaciones del pack.' }
-          ]).map((item) => (
-            <div class="faq-item fade-up">
-              <h3>{item.q}</h3>
-              <p>{item.a}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    {bundle && <PackBundleCTA pack={pack} bundle={bundle} />}
+    <PackFAQ faq={pack.faq} accentColor={pack.categories?.accent_color} />
+    <PackFinalCTA pack={pack} bundle={bundle} />
   </main>
 
   <Footer />
@@ -75,68 +75,8 @@ if (error || !pack) {
     background: #000;
   }
 
-  #faq {
-    padding: 100px 40px;
-    background: var(--dark);
-    border-top: 1px solid var(--border);
-  }
-
-  .faq-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .faq-header {
-    text-align: center;
-    margin-bottom: 60px;
-  }
-
-  .section-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--subtle);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
-  h2 {
-    font-family: var(--font-display);
-    font-size: clamp(32px, 5vw, 64px);
-    line-height: 1;
-    color: var(--white);
-    text-transform: uppercase;
-  }
-
-  .faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .faq-item {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border);
-    padding: 32px;
-    border-radius: 12px;
-  }
-
-  .faq-item h3 {
-    font-size: 18px;
-    color: var(--white);
-    margin-bottom: 12px;
-    font-family: var(--font-body);
-    font-weight: 700;
-  }
-
-  .faq-item p {
-    font-size: 15px;
-    color: var(--subtle);
-    line-height: 1.6;
-  }
-
-  @media (max-width: 768px) {
-    #faq { padding: 80px 20px; }
+  #faq-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
 </style>
 
