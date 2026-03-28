@@ -1,0 +1,162 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Catalog from '../components/Catalog.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Mega Packs Premium — AEC Resources">
+  <Navbar />
+  
+  <main>
+    <!-- HERO DE CATÁLOGO PREMIUM -->
+    <section class="catalog-hero">
+      <div class="hero-bg"></div>
+      <div class="container">
+        <div class="hero-badge fade-up">Librería AEC Profesional</div>
+        <h1 class="fade-up" style="transition-delay: 0.1s">
+          Mega Packs <span class="accent">Premiums</span>
+        </h1>
+        <p class="hero-sub fade-up" style="transition-delay: 0.2s">
+          Explora nuestra colección curada de herramientas para el profesional moderno. 
+          Selecciona tu software y acelera tu flujo de trabajo hoy mismo.
+        </p>
+      </div>
+    </section>
+
+    <!-- GRILLA DINÁMICA DE PRODUCTOS -->
+    <Catalog />
+    
+    <section class="extra-info">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-card fade-up">
+                    <div class="info-icon">⚡</div>
+                    <h3>Descarga Inmediata</h3>
+                    <p>Tras tu pago, recibes acceso instantáneo a las carpetas en la nube.</p>
+                </div>
+                <div class="info-card fade-up" style="transition-delay: 0.1s">
+                    <div class="info-icon">💎</div>
+                    <h3>Garantía de Calidad</h3>
+                    <p>Contenido verificado por expertos BIM y especialistas en renders.</p>
+                </div>
+                <div class="info-card fade-up" style="transition-delay: 0.2s">
+                    <div class="info-icon">🔄</div>
+                    <h3>Actualizaciones</h3>
+                    <p>Acceso de por vida a nuevas versiones y familias añadidas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  main {
+    padding-top: 80px;
+    background: var(--black);
+  }
+
+  .catalog-hero {
+    padding: 100px 20px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(61, 220, 132, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    background: rgba(61, 220, 132, 0.1);
+    color: var(--green);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: inline-block;
+    margin-bottom: 24px;
+    border: 1px solid rgba(61, 220, 132, 0.2);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 8vw, 80px);
+    color: var(--white);
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin-bottom: 24px;
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 1.5vw, 18px);
+    color: var(--subtle);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+
+  /* Extra Info Section */
+  .extra-info {
+    padding: 80px 20px;
+    border-top: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .info-card {
+    text-align: center;
+    padding: 32px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: transform 0.3s;
+  }
+
+  .info-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(61, 220, 132, 0.3);
+  }
+
+  .info-icon {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .info-card h3 {
+    color: var(--white);
+    margin-bottom: 12px;
+    font-size: 18px;
+  }
+
+  .info-card p {
+    color: var(--subtle);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .info-grid { grid-template-columns: 1fr; }
+  }
+</style>

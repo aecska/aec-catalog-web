@@ -2,6 +2,11 @@
 const currentYear = new Date().getFullYear();
 ---
 <footer>
+  <div class="footer-nav">
+    <a href="/">Inicio</a>
+    <a href="/megapacks">Mega Packs</a>
+    <a href="/bundles">Bundles</a>
+  </div>
   <div class="footer-links">
     <a href="#">Términos y Condiciones</a>
     <a href="#">Políticas de Privacidad</a>
@@ -21,6 +26,24 @@ const currentYear = new Date().getFullYear();
     flex-direction: column;
     align-items: center;
     gap: 20px;
+  }
+
+  .footer-nav {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 8px;
+  }
+
+  .footer-nav a {
+    font-size: 13px;
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .footer-nav a:hover {
+    color: var(--green);
   }
 
   .footer-links {
