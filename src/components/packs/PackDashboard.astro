@@ -106,6 +106,16 @@ const getChecklist = (desc: string) => {
       <button class="modal-close">&times;</button>
       <div class="video-wrapper">
         <iframe id="modalIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        
+        <!-- Fallback message inside modal -->
+        <div id="modalFallback" class="modal-fallback" style="display: none;">
+          <div class="fallback-inner">
+            <span class="f-icon">🎥</span>
+            <h3 id="fallbackTitle">CONTENIDO EN ACTUALIZACIÓN</h3>
+            <p id="fallbackMsg">Estamos trabajando para brindarte la mejor experiencia técnica. Este material estará disponible muy pronto.</p>
+            <div class="f-badge">PROXIMAMENTE</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -358,6 +368,59 @@ const getChecklist = (desc: string) => {
     height: 100%;
   }
 
+  /* Modal Fallback Styling */
+  .modal-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    z-index: 10;
+  }
+
+  .fallback-inner {
+    max-width: 450px;
+  }
+
+  .f-icon {
+    font-size: 48px;
+    margin-bottom: 24px;
+    display: block;
+    opacity: 0.5;
+  }
+
+  .modal-fallback h3 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .modal-fallback p {
+    font-size: 16px;
+    color: var(--subtle);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .f-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--white);
+    letter-spacing: 3px;
+  }
+
   @media (max-width: 900px) {
     .content-grid { grid-template-columns: 1fr; }
     .dashboard-actions { flex-direction: column; width: 100%; }
@@ -375,22 +438,42 @@ const getChecklist = (desc: string) => {
 
     if (!modal || !iframe) return;
 
-    const toggleModal = (show: boolean, url: string = '') => {
-      modal.classList.toggle('active', show);
-      if (show && url) {
-        let finalUrl = url;
-        // Convert Youtube watch to embed if needed
-        if (finalUrl.includes('youtube.com/watch?v=')) {
-          finalUrl = finalUrl.replace('watch?v=', 'embed/');
+    const fallback = document.getElementById('modalFallback');
+    const fallbackTitle = document.getElementById('fallbackTitle');
+    const fallbackMsg = document.getElementById('fallbackMsg');
+
+    const toggleModal = (show: boolean, url: string = '', msgObj?: any) => {
+      if (show) {
+        if (url && url !== '#' && url.trim() !== '') {
+          let finalUrl = url;
+          // Convert Youtube watch to embed if needed
+          if (finalUrl.includes('youtube.com/watch?v=')) {
+            finalUrl = finalUrl.replace('watch?v=', 'embed/');
+          }
+          // Ensure Drive links are /preview if they are file links (handle additional query params)
+          if (finalUrl.includes('drive.google.com/file/d/')) {
+            finalUrl = finalUrl.replace(/\/view(\?.*)?$/, '/preview');
+          }
+          
+          iframe.src = finalUrl;
+          iframe.style.display = 'block';
+          if (fallback) fallback.style.display = 'none';
+        } else {
+          // Show fallback instead of iframe
+          iframe.src = 'about:blank';
+          iframe.style.display = 'none';
+          if (fallback) {
+            fallback.style.display = 'flex';
+            if (msgObj) {
+              if (fallbackTitle) fallbackTitle.innerText = msgObj.title;
+              if (fallbackMsg) fallbackMsg.innerText = msgObj.msg;
+            }
+          }
         }
-        // Ensure Drive links are /preview if they are file links (handle additional query params)
-        if (finalUrl.includes('drive.google.com/file/d/')) {
-          finalUrl = finalUrl.replace(/\/view(\?.*)?$/, '/preview');
-        }
-        
-        iframe.src = finalUrl;
+        modal.classList.add('active');
         document.body.style.overflow = 'hidden';
       } else {
+        modal.classList.remove('active');
         iframe.src = '';
         document.body.style.overflow = '';
       }
@@ -399,11 +482,16 @@ const getChecklist = (desc: string) => {
     openBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const url = btn.getAttribute('data-url') || '';
-        if (url && url !== '#') {
-          toggleModal(true, url);
-        } else {
-          alert('Próximamente disponible.');
-        }
+        const type = btn.getAttribute('data-type') || 'contenido';
+        
+        const fallbackInfo = {
+          title: type === 'video' ? 'VIDEO EN ACTUALIZACIÓN' : 'CATÁLOGO EN MANTENIMIENTO',
+          msg: type === 'video' 
+            ? 'El video demostración se está preparando para reflejar las últimas funciones. Estará disponible en breve.' 
+            : 'El catálogo detallado se encuentra en mantenimiento técnico. Estará disponible nuevamente en unos minutos.'
+        };
+        
+        toggleModal(true, url, fallbackInfo);
       });
     });
 
