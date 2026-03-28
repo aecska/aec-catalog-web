@@ -44,14 +44,43 @@ const { data: bundles, error } = await supabase
       <div class="empty-bundles">Próximamente nuevas colecciones.</div>
     )}
   </div>
+
+  <div class="bundles-footer fade-up">
+    <a href="/bundles" class="view-all">
+      Ver todas las colecciones →
+    </a>
+  </div>
 </section>
 
 <style>
   #bundles {
     background: var(--dark);
-    padding: 100px 40px;
+    padding: 100px 40px 120px;
     text-align: center;
     border-top: 1px solid var(--border);
+  }
+
+  .bundles-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+  }
+
+  .view-all {
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: opacity 0.2s;
+    opacity: 0.8;
+  }
+
+  .view-all:hover {
+    opacity: 1;
+    text-decoration: underline;
   }
 
   .bundles-grid {
