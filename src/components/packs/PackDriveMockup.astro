@@ -6,72 +6,87 @@ interface Props {
 const { pack } = Astro.props;
 const accentColor = pack.categories?.accent_color || 'var(--green)';
 
-const folders = [
-  '01_Bibliotecas_Premium',
-  '02_Texturas_4K',
-  '03_Modelos_3D',
-  '04_Guias_Usuario',
-  '05_Bonos_Exclusivos'
+const trustCards = [
+  { 
+    title: 'Pago Protegido', 
+    desc: 'Pasarela 100% segura.', 
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>` 
+  },
+  { 
+    title: 'Acceso Cloud', 
+    desc: 'Google Drive 24/7.', 
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19c2.5 0 4.5-2 4.5-4.5 0-2-1.5-3.5-3.5-4C18 7.5 15.5 5 12.5 5c-2.5 0-4.5 2-4.5 4.5 0 .5.1.8.2 1.2C6 11 4.5 12.5 4.5 14.5c0 2.5 2 4.5 4.5 4.5h8.5z"></path></svg>` 
+  },
+  { 
+    title: 'Link Vitalicio', 
+    desc: 'Nunca caduca.', 
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>` 
+  },
+  { 
+    title: 'Soporte VIP', 
+    desc: 'Chat con ingenieros.', 
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>` 
+  }
 ];
+
+// Helper to handle video URL
+const videoUrl = pack.drive_video_url || 'https://www.youtube.com/embed/Zn74CVBgTLQ';
+const finalVideoUrl = videoUrl.includes('youtube.com/watch?v=') ? videoUrl.replace('watch?v=', 'embed/') : (videoUrl.includes('drive.google.com/file/d/') && !videoUrl.includes('/preview') ? videoUrl.replace(/\/view(\?.*)?$/, '/preview') : videoUrl);
+
 ---
 
-<section id="drive-preview">
+<section id="access-process">
   <div class="container">
-    <div class="drive-grid">
-      <div class="drive-text fade-up">
-        <div class="section-label">Transparencia Total</div>
-        <h2>EXPLORA EL <span style={`color: ${accentColor}`}>GOOGLE DRIVE</span> REAL</h2>
-        <p>No vendemos promesas. Vendemos contenido organizado y listo para descargar. Así es como verás tu pack una vez que realices el pago.</p>
-        
-        <ul class="drive-features">
-          <li><span class="dot"></span> Acceso inmediato perpetuo</li>
-          <li><span class="dot"></span> Servidores de alta velocidad</li>
-          <li><span class="dot"></span> Actualizaciones gratuitas</li>
-        </ul>
-      </div>
+    <div class="header fade-up">
+      <div class="overtitle">— PROCESO DE ACCESO —</div>
+      <h2>TU LIBRERÍA EN LA NUBE, LISTA PARA USAR</h2>
+      <p class="subtitle">Acceso inmediato y organizado. Mira cómo navegarás por tu nuevo material.</p>
+    </div>
 
-      <div class="browser-frame fade-up" style="transition-delay: 0.2s">
-        <div class="browser-header">
-          <div class="browser-dots">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-          </div>
-          <div class="browser-address">
-            drive.google.com/u/0/folders/{pack.slug}-premium
-          </div>
-        </div>
-
-        <div class="browser-content">
-          <div class="explorer-toolbar">
-            <div class="path-bar">
-              Mi unidad > <strong>{pack.categories?.name || 'AEC'}</strong> > {pack.name}
+    <div class="access-grid">
+      <!-- LEFT: BROWSER VIDEO TOUR -->
+      <div class="video-column fade-up">
+        <div class="browser-mockup">
+          <div class="browser-header">
+            <div class="dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="address-bar">
+              <span class="folder-path">Mi Unidad > Tour por el Pack {pack.name}</span>
             </div>
           </div>
-
-          <div class="folder-grid">
-            {folders.map((folder) => (
-              <div class="folder-item">
-                <div class="folder-icon">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(255,255,255,0.2)">
-                    <path d="M20 18H4V8h16v10zm0-12h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/>
-                  </svg>
-                </div>
-                <div class="folder-name">{folder}</div>
-              </div>
-            ))}
+          <div class="video-container">
+            <iframe src={finalVideoUrl} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
         </div>
+      </div>
+
+      <!-- RIGHT: TRUST CARDS -->
+      <div class="cards-column">
+        {trustCards.map((card, index) => (
+          <div class="trust-card fade-up" style={`transition-delay: ${index * 0.1}s`}>
+            <div class="card-inner">
+              <div class="card-icon" set:html={card.icon} />
+              <div class="card-info">
+                <h3>{card.title}</h3>
+                <p>{card.desc}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  #drive-preview {
+  #access-process {
     padding: 120px 40px;
-    background: var(--dark);
-    border-top: 1px solid var(--border);
+    background: #050505;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
   }
 
   .container {
@@ -79,70 +94,50 @@ const folders = [
     margin: 0 auto;
   }
 
-  .drive-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 80px;
-    align-items: center;
+  .header {
+    text-align: center;
+    margin-bottom: 80px;
   }
 
-  .section-label {
+  .overtitle {
     font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--subtle);
-    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--green);
     margin-bottom: 24px;
-    display: block;
   }
 
   h2 {
     font-family: var(--font-display);
-    font-size: clamp(32px, 5vw, 56px);
-    line-height: 1.1;
-    margin-bottom: 24px;
+    font-size: clamp(32px, 5vw, 60px);
+    line-height: 1;
     color: var(--white);
     text-transform: uppercase;
+    margin-bottom: 20px;
   }
 
-  p {
-    font-size: 16px;
+  .subtitle {
+    font-size: 17px;
     color: var(--subtle);
-    line-height: 1.6;
-    margin-bottom: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 300;
   }
 
-  .drive-features {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .drive-features li {
-    display: flex;
+  .access-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 32px;
     align-items: center;
-    gap: 12px;
-    font-size: 15px;
-    color: var(--light);
-    font-weight: 600;
   }
 
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 10px rgba(61, 220, 132, 0.5);
-  }
-
-  /* Browser Frame */
-  .browser-frame {
-    background: #0d0d0d;
+  /* Browser Mockup Styling */
+  .browser-mockup {
+    background: #111;
     border-radius: 12px;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     overflow: hidden;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
   }
 
   .browser-header {
@@ -150,11 +145,11 @@ const folders = [
     padding: 12px 16px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    border-bottom: 1px solid var(--border);
+    gap: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .browser-dots {
+  .dots {
     display: flex;
     gap: 6px;
   }
@@ -169,67 +164,92 @@ const folders = [
   .dot.yellow { background: #ffbd2e; }
   .dot.green { background: #27c93f; }
 
-  .browser-address {
-    flex: 1;
-    background: #000;
-    padding: 6px 12px;
+  .address-bar {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 6px 16px;
     border-radius: 4px;
+    flex: 1;
+  }
+
+  .folder-path {
     font-size: 11px;
-    color: #555;
+    color: rgba(255, 255, 255, 0.4);
     font-family: var(--font-mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
   }
 
-  .browser-content {
-    background: #0d0d0d;
-    min-height: 400px;
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    background: #000;
   }
 
-  .explorer-toolbar {
-    background: #151515;
-    padding: 12px 20px;
-    border-bottom: 1px solid var(--border);
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  .path-bar {
-    font-size: 12px;
-    color: #888;
-    font-family: var(--font-mono);
+  /* Right Column: Trust Cards */
+  .cards-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
-  .path-bar strong { color: var(--white); }
+  .trust-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s ease;
+  }
 
-  .folder-grid {
-    padding: 40px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  .trust-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(8px);
+  }
+
+  .card-inner {
+    display: flex;
+    align-items: center;
     gap: 20px;
   }
 
-  .folder-item {
+  .card-icon {
+    width: 44px;
+    height: 44px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 12px;
-    padding: 15px;
-    border-radius: 8px;
-    transition: 0.2s;
-    cursor: default;
+    justify-content: center;
+    color: #4facfe; /* Blue color from screenshot hints */
+    background: rgba(79, 172, 254, 0.1);
+    border-radius: 10px;
+    flex-shrink: 0;
   }
 
-  .folder-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+  .card-info h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+    color: var(--white);
+    font-weight: 700;
   }
 
-  .folder-name {
-    font-size: 11px;
-    color: #subtle;
-    text-align: center;
-    font-family: var(--font-mono);
-    opacity: 0.8;
+  .card-info p {
+    font-size: 13px;
+    color: var(--subtle);
+    margin: 0;
   }
 
-  @media (max-width: 1024px) {
-    .drive-grid { grid-template-columns: 1fr; gap: 60px; }
-    #drive-preview { padding: 80px 20px; }
+  @media (max-width: 900px) {
+    .access-grid { grid-template-columns: 1fr; gap: 40px; }
+    .trust-card:hover { transform: translateY(-4px); }
   }
 </style>

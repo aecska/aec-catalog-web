@@ -4,7 +4,6 @@ import Navbar from '../../components/layout/Navbar.astro';
 import Footer from '../../components/layout/Footer.astro';
 import PackHero from '../../components/packs/PackHero.astro';
 import PackDashboard from '../../components/packs/PackDashboard.astro';
-import PackShowcase from '../../components/packs/PackShowcase.astro';
 import PackDriveMockup from '../../components/packs/PackDriveMockup.astro';
 import PackBenefits from '../../components/packs/PackBenefits.astro';
 import { supabase } from '../../lib/supabase';
@@ -42,7 +41,6 @@ if (error || !pack) {
   <main>
     <PackHero pack={pack} />
     <PackDashboard pack={pack} />
-    <PackShowcase pack={pack} />
     <PackDriveMockup pack={pack} />
     <PackBenefits pack={pack} />
 
