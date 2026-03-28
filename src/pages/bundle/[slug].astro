@@ -32,18 +32,18 @@ if (error || !bundle) {
     <!-- BUNDLE HERO -->
     <section id="bundle-hero" style="background: linear-gradient(to bottom, #080808 0%, #0f0f0f 100%); padding: 140px 40px 80px; text-align: center;">
       <div style="max-width: 1000px; margin: 0 auto;">
-        <div class="section-label" style="color: var(--gold);">{bundle.category_label}</div>
-        <h1 style="font-size: clamp(40px, 8vw, 90px); line-height: 1; margin: 24px 0;">{bundle.title}</h1>
-        <p class="hero-sub">{bundle.subtitle}</p>
+        <div class="section-label" style="color: var(--gold);">{bundle.hero_content?.over || 'COLECCIÓN COMPLETA'}</div>
+        <h1 style="font-size: clamp(40px, 8vw, 90px); line-height: 1; margin: 24px 0;">{bundle.hero_content?.title || bundle.name}</h1>
+        <p class="hero-sub">{bundle.hero_content?.sub || 'Acceso premium a lo mejor de AEC Resources.'}</p>
 
         <!-- BUNDLE STATS -->
         <div class="value-bar" style="border-color: rgba(212, 168, 67, 0.2); background: rgba(212, 168, 67, 0.03);">
-          {bundle.hero_stats.map((stat, index) => (
+          {(bundle.stats || []).map((stat, index) => (
             <>
               <div class="value-item">
-                <span style="font-size: 20px;">{stat.icon}</span> {stat.text}
+                <span style="font-size: 20px;">{stat.icon || stat.val}</span> {stat.text || stat.label}
               </div>
-              {index < bundle.hero_stats.length - 1 && <div class="value-sep"></div>}
+              {index < (bundle.stats || []).length - 1 && <div class="value-sep"></div>}
             </>
           ))}
         </div>
@@ -51,10 +51,10 @@ if (error || !bundle) {
         <div style="background: var(--card); border: 1px solid var(--border); padding: 40px; border-radius: 20px; display: inline-block;">
           <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 24px;">
             <div style="text-align: left;">
-              <div style="color: var(--muted); text-decoration: line-through; font-size: 18px;">${bundle.old_price.toLocaleString()}</div>
-              <div style="font-size: 48px; font-family: var(--font-display); color: var(--green);">${bundle.price.toLocaleString()}</div>
+              <div style="color: var(--muted); text-decoration: line-through; font-size: 18px;">${bundle.price_total?.toLocaleString() || '0'}</div>
+              <div style="font-size: 48px; font-family: var(--font-display); color: var(--green);">${bundle.price_discount?.toLocaleString() || '0'}</div>
             </div>
-             <div style="background: var(--red); color: var(--white); padding: 8px 16px; border-radius: 4px; font-weight: 900; font-family: var(--font-mono);">{bundle.discount_label}</div>
+             <div style="background: var(--red); color: var(--white); padding: 8px 16px; border-radius: 4px; font-weight: 900; font-family: var(--font-mono);">{bundle.saving_percentage}% OFF</div>
           </div>
           <a href={`https://wa.me/19292100867?text=Hola! Quiero el ${bundle.name} en oferta`} target="_blank" class="btn-buy-giant">
             ADQUIRIR BUNDLE COMPLETO
@@ -70,7 +70,7 @@ if (error || !bundle) {
         <h2 style="margin-bottom: 48px;">SOBRE EL <span class="accent">BUNDLE</span></h2>
         
         <div class="faq-list" style="display: flex; flex-direction: column; gap: 16px;">
-          {bundle.faq.map((item) => (
+          {(bundle.faq || []).map((item) => (
             <div style="background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; text-align: left;">
               <h3 style="font-size: 17px; margin-bottom: 12px; color: var(--white); font-family: var(--font-body);">{item.q}</h3>
               <p style="font-size: 15px; color: var(--subtle); line-height: 1.6;">{item.a}</p>

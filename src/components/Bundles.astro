@@ -1,22 +1,10 @@
 ---
 import { supabase } from '../lib/supabase';
 
-const bundles = [
-  {
-    name: 'Bundle Revit Total',
-    description: 'Acceso total a los 7 packs de Revit. Incluye todas las familias de mobiliario, vegetación, iluminación y plantillas profesionales.',
-    price_normal: 52,
-    price_promo: 39,
-    is_featured: true
-  },
-  {
-    name: 'Bundle AutoCAD Pro',
-    description: 'Lleva los 3 packs de AutoCAD con bloques dinámicos, detalles constructivos y plantillas especializadas para arquitectura.',
-    price_normal: 22,
-    price_promo: 17,
-    is_featured: false
-  }
-];
+const { data: bundles, error } = await supabase
+  .from('bundles')
+  .select('*')
+  .order('price_discount', { ascending: false });
 ---
 
 <section id="bundles">
@@ -26,14 +14,14 @@ const bundles = [
 
   <div class="bundles-grid">
     {bundles && bundles.map((bundle) => (
-      <div class={`bundle-card fade-up ${bundle.is_featured ? 'featured' : ''}`}>
-        {bundle.is_featured && <span class="featured-badge">MÁS VENDIDO</span>}
+      <div class={`bundle-card fade-up ${bundle.price_discount > 30 ? 'featured' : ''}`}>
+        {bundle.price_discount > 30 && <span class="featured-badge">MÁS VENDIDO</span>}
         <div class="bundle-name">{bundle.name}</div>
-        <p class="bundle-desc">{bundle.description}</p>
+        <p class="bundle-desc">{bundle.hero_content?.sub || 'Acceso total a la colección AEC.'}</p>
         <div class="bundle-pricing">
-          {bundle.price_normal && <span class="price-old">${bundle.price_normal}</span>}
-          <span class="price-new"><sup>$</sup>{bundle.price_promo || bundle.price}</span>
-          <span class="savings-tag">AHORRAS {Math.round((1 - (bundle.price_promo / bundle.price_normal)) * 100)}%</span>
+          {bundle.price_total && <span class="price-old">${bundle.price_total}</span>}
+          <span class="price-new"><sup>$</sup>{bundle.price_discount}</span>
+          <span class="savings-tag">AHORRAS {bundle.saving_percentage}%</span>
         </div>
         <div class="bundle-btns">
           <a href={`https://wa.me/19292100867?text=Hola! Quiero detalles del ${bundle.name}`} target="_blank" class="btn-bundle-secondary">Ver detalles</a>

@@ -2,11 +2,11 @@
 import { supabase } from '../lib/supabase';
 import ProductCard from './ProductCard.astro';
 
-// Consultar todos los packs de la base de datos
+// Consultar todos los packs de la base de datos con sus categorías
 const { data: packs, error } = await supabase
   .from('packs')
-  .select('*')
-  .order('created_at', { ascending: false });
+  .select('*, categories(*)')
+  .order('name', { ascending: true });
 ---
 
 <section id="catalog">

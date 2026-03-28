@@ -48,25 +48,25 @@ const getDirectUrl = (url) => {
     <section id="hero">
       <div class="hero-content">
         <div class="hero-header-row">
-          <div class="software-label">BIBLIOTECA DE {pack.categories.name} PRO</div>
+          <div class="software-label">BIBLIOTECA DE {pack.categories?.name || 'AEC'} PRO</div>
           <div class="stars-social">
             <span class="stars">★★★★★</span>
-            <span class="votes">(4.9/5)</span>
+            <span class="votes">({pack.rating || '4.9'}/5) • {pack.votes?.toLocaleString() || '12,347'} votos</span>
           </div>
         </div>
         
-        <h1 set:html={pack.name.replace('REVIT', '<span class="accent">REVIT</span>').replace('7.0', '<span class="gray">7.0</span>')} />
+        <h1 set:html={(pack.hero_title || pack.name).replace('REVIT', '<span class="accent">REVIT</span>').replace('7.0', '<span class="gray">7.0</span>')} />
         
-        <p class="hero-sub">{pack.short_desc}</p>
+        <p class="hero-sub">{pack.hero_subtitle || pack.short_desc}</p>
 
         <!-- VALUE BAR (DYNAMIC STATS) -->
         <div class="value-bar">
-          {pack.hero_stats.map((stat, index) => (
+          {(pack.hero_stats || []).map((stat, index) => (
             <>
               <div class="value-item">
                 <span>{stat.icon}</span> {stat.text}
               </div>
-              {index < pack.hero_stats.length - 1 && <div class="value-sep"></div>}
+              {index < (pack.hero_stats || []).length - 1 && <div class="value-sep"></div>}
             </>
           ))}
         </div>
@@ -82,6 +82,15 @@ const getDirectUrl = (url) => {
       </div>
     </section>
 
+    <!-- SECTION 2: MARKETING HOOK -->
+    <section id="marketing-hook" style="background: var(--dark); padding: 100px 40px; border-top: 1px solid var(--border);">
+      <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+        <div class="section-label">{pack.s2_overtitle || 'DOMINA EL SOFTWARE'}</div>
+        <h2 style="margin-bottom: 24px;">{pack.s2_title || 'Todo lo que necesitas en un solo lugar'}</h2>
+        <p style="color: var(--subtle); font-size: 18px; max-width: 800px; margin: 0 auto;">{pack.s2_subtitle || 'Diseñado para profesionales que buscan resultados de alto nivel.'}</p>
+      </div>
+    </section>
+
     <!-- DASHBOARD / CONTENT GRID -->
     <section id="dashboard">
       <div class="dashboard-container">
@@ -91,18 +100,18 @@ const getDirectUrl = (url) => {
         </div>
 
         <div class="content-grid">
-          {pack.content_cards.map((card) => (
+          {(pack.content_cards || []).map((card) => (
             <div class={`content-card ${card.type === 'drive' ? 'featured' : ''}`}>
                <div class="card-title">
                 {card.type === 'catalog' && '📁'}
                 {card.type === 'video' && '🎥'}
                 {card.type === 'drive' && '🚀'}
-                {card.label}
+                {card.title || card.label}
               </div>
-              <p class="card-desc">Haz clic para ver una vista previa real del contenido antes de comprar.</p>
+              <p class="card-desc">{card.description || 'Haz clic para ver una vista previa real del contenido antes de comprar.'}</p>
               <div class="dashboard-actions" style="margin-top: auto;">
-                 <a href={card.url} target="_blank" class={`btn-action-modal ${card.type === 'drive' ? 'primary' : ''}`}>
-                  Ver {card.label}
+                 <a href={card.url || pack.catalog_url} target="_blank" class={`btn-action-modal ${card.type === 'drive' ? 'primary' : ''}`}>
+                  Ver {card.title || card.label}
                 </a>
               </div>
             </div>
@@ -111,17 +120,24 @@ const getDirectUrl = (url) => {
       </div>
     </section>
 
-    <!-- BENEFITS -->
-    <section id="benefits" style="background: var(--black); padding: 80px 40px; border-top: 1px solid var(--border);">
+    <!-- SECTION 4: BENEFITS TITLE -->
+    <section id="benefits-header" style="background: var(--black); padding: 100px 40px 0;">
       <div style="max-width: 1200px; margin: 0 auto;">
-        <div class="section-label">Beneficios Exclusivos</div>
-        <h2 style="margin-bottom: 40px;">¿POR QUÉ ELEGIR <span class="accent">AEC RESOURCES</span>?</h2>
-        
+        <div class="section-label">{pack.s4_overtitle || 'Inversión Estratégica'}</div>
+        <h2>{pack.s4_title || '¿Por qué este pack es tu mejor decisión?'}</h2>
+        <p style="color: var(--subtle); margin-top: 12px;">{pack.s4_subtitle || 'Eleva el nivel de tus presentaciones con estándares profesionales.'}</p>
+      </div>
+    </section>
+
+    <!-- BENEFITS LIST -->
+    <section id="benefits" style="background: var(--black); padding: 40px 40px 100px;">
+      <div style="max-width: 1200px; margin: 0 auto;">
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: left;">
-          {pack.benefits.map((benefit) => (
-            <div style="display: flex; gap: 12px; align-items: center; background: var(--card); padding: 20px; border-radius: 8px; border: 1px solid var(--border);">
-              <span style="color: var(--green); font-weight: 900;">✔</span>
-              <span style="font-size: 14px; color: var(--light);">{benefit}</span>
+          {(pack.benefits || []).map((benefit) => (
+            <div style="display: flex; flex-direction: column; gap: 12px; background: var(--card); padding: 32px; border-radius: 12px; border: 1px solid var(--border); transition: 0.3s;" class="benefit-card">
+              <span style="font-size: 24px;">{benefit.icon || '✨'}</span>
+              <h3 style="font-size: 18px; color: var(--white); font-family: var(--font-display);">{benefit.title || benefit}</h3>
+              <p style="font-size: 14px; color: var(--subtle); line-height: 1.5;">{benefit.description || 'Mejora la calidad de tus entregas técnicas inmediatamente.'}</p>
             </div>
           ))}
         </div>
@@ -135,7 +151,7 @@ const getDirectUrl = (url) => {
         <h2 style="margin-bottom: 48px;">PREGUNTAS <span class="accent">FRECUENTES</span></h2>
         
         <div class="faq-list" style="display: flex; flex-direction: column; gap: 16px;">
-          {pack.faq.map((item) => (
+          {(pack.faq || []).map((item) => (
             <div style="background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; text-align: left;">
               <h3 style="font-size: 17px; margin-bottom: 12px; color: var(--white); font-family: var(--font-body);">{item.q}</h3>
               <p style="font-size: 15px; color: var(--subtle); line-height: 1.6;">{item.a}</p>
