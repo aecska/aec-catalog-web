@@ -7,27 +7,32 @@ const { pack } = Astro.props;
 const accentColor = pack.categories?.accent_color || 'var(--green)';
 
 const standardBenefits = [
-  { icon: '🚀', title: 'Flujo Optimizado', description: 'Basta de buscar. Accede al contenido premium ya filtrado y listo para tus proyectos.' },
-  { icon: '✨', title: 'Acabados de Lujo', description: 'Eleva la estética de tus entregas con texturas y modelos de estándar internacional.' },
-  { icon: '🔒', title: 'Compra Garantizada', description: 'Soporte humano por WhatsApp para resolver cualquier duda en tiempo real.' }
+  { icon: '✨', title: 'Mejora visual', description: 'Logra planos con nivel de detalle superior y estética profesional de forma inmediata.' },
+  { icon: '⏱️', title: 'Ahorra tiempo', description: 'Elimina horas de configuración manual. Arrastra, suelta y empieza a producir.' },
+  { icon: '🎓', title: 'Curso incluido', description: '9 Clases maestras para que aprendas a personalizar y crear tus propias vistas.' },
+  { icon: '📂', title: 'Orden absoluto', description: 'Todo clasificado por disciplina (Arqui, Estructural, MEP) para un uso intuitivo.' },
+  { icon: '🖨️', title: 'Listo para imprimir', description: 'Grosores de línea y visibilidad configurados bajo estándares técnicos reales.' }
 ];
 
-const benefits = pack.benefits && pack.benefits.length > 0 ? pack.benefits : standardBenefits;
+const benefits = pack.benefits && pack.benefits.length >= 5 ? pack.benefits : standardBenefits;
 ---
 
-<section id="benefits">
+<section id="strategic-investment">
   <div class="container">
     <div class="benefits-header fade-up">
-      <div class="section-label">¿Por qué Aegis?</div>
-      <h2>EL ESTÁNDAR <span style={`color: ${accentColor}`}>PROFESIONAL</span></h2>
+      <div class="overtitle">— {pack.s4_overtitle || 'INVERSIÓN ESTRATÉGICA'} —</div>
+      <h2>{pack.s4_title || '¿POR QUÉ ESTE PACK ES TU MEJOR DECISIÓN?'}</h2>
+      <p class="subtitle">{pack.s4_subtitle || 'Eleva el nivel de tus presentaciones BIM con estándares profesionales.'}</p>
     </div>
 
     <div class="benefits-grid">
-      {benefits.map((benefit, index) => (
+      {benefits.map((benefit: any, index: number) => (
         <div class="benefit-card fade-up" style={`transition-delay: ${index * 0.1}s; --accent: ${accentColor}`}>
-          <div class="benefit-icon">{benefit.icon || '💎'}</div>
+          <div class="benefit-icon">
+            <span class="icon-inner">{benefit.icon || '💎'}</span>
+          </div>
           <h3>{benefit.title}</h3>
-          <p>{benefit.description || 'Contenido premium curado para profesionales de alto rendimiento.'}</p>
+          <p>{benefit.description || benefit.desc}</p>
         </div>
       ))}
     </div>
@@ -35,96 +40,121 @@ const benefits = pack.benefits && pack.benefits.length > 0 ? pack.benefits : sta
 </section>
 
 <style>
-  #benefits {
-    padding: 100px 40px;
-    background: #000;
+  #strategic-investment {
+    padding: 120px 40px;
+    background: #080808;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
 
   .container {
-    max-width: 950px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
   .benefits-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 80px;
   }
 
-  .section-label {
+  .overtitle {
     font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--subtle);
+    letter-spacing: 4px;
+    color: var(--green);
     text-transform: uppercase;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+    opacity: 0.8;
   }
 
   h2 {
     font-family: var(--font-display);
-    font-size: clamp(32px, 5vw, 64px);
+    font-size: clamp(32px, 5vw, 56px);
     line-height: 1;
     color: var(--white);
     text-transform: uppercase;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .subtitle {
+    font-size: 17px;
+    color: var(--subtle);
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 300;
   }
 
   .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
   }
 
   .benefit-card {
     background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border);
-    padding: 48px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px 20px;
     border-radius: 16px;
-    transition: 0.3s;
-    text-align: left;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .benefit-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 0;
-    background: var(--accent);
-    transition: 0.5s;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
   }
 
   .benefit-card:hover {
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .benefit-card:hover::before {
-    height: 100%;
+    transform: translateY(-8px);
   }
 
   .benefit-icon {
-    font-size: 40px;
+    font-size: 28px;
     margin-bottom: 24px;
-    display: block;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .icon-inner {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
   }
 
   h3 {
-    font-family: var(--font-display);
-    font-size: 24px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 700;
     color: var(--white);
-    margin-bottom: 16px;
-    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    text-transform: none;
+    letter-spacing: 0;
   }
 
   p {
-    font-size: 15px;
+    font-size: 13px;
     color: var(--subtle);
-    line-height: 1.6;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  @media (max-width: 1100px) {
+    .benefits-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
   @media (max-width: 768px) {
-    #benefits { padding: 80px 20px; }
+    .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+    #strategic-investment { padding: 80px 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .benefits-grid { grid-template-columns: 1fr; }
   }
 </style>
