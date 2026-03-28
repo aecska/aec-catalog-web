@@ -1,0 +1,218 @@
+---
+import { supabase } from '../../lib/supabase';
+
+const { data: categories } = await supabase
+  .from('categories')
+  .select('*')
+  .order('name', { ascending: true });
+---
+
+<div class="filter-wrapper">
+  <div class="filter-container">
+    <div class="filter-label">Explorar:</div>
+    <div class="filter-navigation">
+      <button class="scroll-btn prev" id="scrollPrev" aria-label="Anterior">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      
+      <div class="filter-track" id="filterTrack">
+        <button class="filter-btn active" data-category="all">TODOS</button>
+        {categories && categories.map((cat) => (
+          <button class="filter-btn" data-category={cat.slug}>
+            {cat.name.toUpperCase()}
+          </button>
+        ))}
+      </div>
+
+      <button class="scroll-btn next" id="scrollNext" aria-label="Siguiente">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .filter-wrapper {
+    position: sticky;
+    top: 78px;
+    z-index: 90;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .filter-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+  }
+
+  .filter-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+
+  .filter-navigation {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .filter-track {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 4px 0;
+    scroll-behavior: smooth;
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  }
+
+  .filter-track::-webkit-scrollbar { display: none; }
+
+  .scroll-btn {
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .scroll-btn:hover {
+    background: #1a1a1a;
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .filter-btn {
+    white-space: nowrap;
+    padding: 10px 24px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #666;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .filter-btn:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+  }
+
+  .filter-btn.active {
+    background: var(--green);
+    color: #000;
+    border-color: var(--green);
+    box-shadow: 0 4px 15px rgba(61, 220, 132, 0.2);
+  }
+
+  @media (max-width: 900px) {
+    .filter-container {
+      padding: 12px 20px;
+      gap: 15px;
+    }
+    
+    .filter-label {
+      display: none;
+    }
+
+    .filter-track {
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    }
+  }
+</style>
+
+<script>
+  function initFilters() {
+    const track = document.getElementById('filterTrack');
+    const prev = document.getElementById('scrollPrev');
+    const next = document.getElementById('scrollNext');
+
+    if (track && prev && next) {
+      const amount = 300;
+      prev.onclick = () => track.scrollBy({ left: -amount, behavior: 'smooth' });
+      next.onclick = () => track.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+
+    // Filter Logic
+    const btns = document.querySelectorAll('.filter-btn');
+    const gridItems = document.querySelectorAll('.product-card-wrapper');
+    const emptyState = document.getElementById('empty-state');
+
+    btns.forEach(btn => {
+      btn.onclick = () => {
+        const category = (btn as HTMLElement).dataset.category;
+        
+        // Active State
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        let visibleCount = 0;
+
+        // Filtering Animation
+        gridItems.forEach(item => {
+          const itemCategory = (item as HTMLElement).dataset.category;
+          if (category === 'all' || itemCategory === category) {
+            (item as HTMLElement).style.display = 'block';
+            visibleCount++;
+            setTimeout(() => { 
+              (item as HTMLElement).style.opacity = '1'; 
+              (item as HTMLElement).style.transform = 'translateY(0)'; 
+            }, 10);
+          } else {
+            (item as HTMLElement).style.opacity = '0';
+            (item as HTMLElement).style.transform = 'translateY(20px)';
+            setTimeout(() => { (item as HTMLElement).style.display = 'none'; }, 300);
+          }
+        });
+
+        // Show/Hide Empty State
+        if (emptyState) {
+          if (visibleCount === 0) {
+            emptyState.style.display = 'block';
+            setTimeout(() => { emptyState.style.opacity = '1'; }, 10);
+          } else {
+            emptyState.style.opacity = '0';
+            setTimeout(() => { emptyState.style.display = 'none'; }, 300);
+          }
+        }
+      };
+    });
+  }
+
+  // Init on navigation
+  initFilters();
+  document.addEventListener('astro:after-swap', initFilters);
+</script>

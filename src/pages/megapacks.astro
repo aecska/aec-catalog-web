@@ -1,54 +1,48 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/layout/Navbar.astro';
-import Catalog from '../components/home/Catalog.astro';
 import Footer from '../components/layout/Footer.astro';
+import CatalogHero from '../components/catalog/CatalogHero.astro';
+import CategoryFilters from '../components/catalog/CategoryFilters.astro';
+import CatalogUpsell from '../components/catalog/CatalogUpsell.astro';
+import ProductCard from '../components/shared/ProductCard.astro';
+import { supabase } from '../lib/supabase';
+
+// Fetch all packs with categories for filtering
+const { data: packs, error } = await supabase
+  .from('packs')
+  .select('*, categories(*)')
+  .order('created_at', { ascending: false });
+
 ---
 
-<Layout title="Mega Packs Premium — AEC Resources">
+<Layout title="Catálogo Mega Packs PRO — AEC Resources">
   <Navbar />
   
   <main>
-    <!-- HERO DE CATÁLOGO PREMIUM -->
-    <section class="catalog-hero">
-      <div class="hero-bg"></div>
+    <CatalogHero />
+    <CategoryFilters />
+
+    <section id="catalog-grid-section">
       <div class="container">
-        <div class="hero-badge fade-up">Librería AEC Profesional</div>
-        <h1 class="fade-up" style="transition-delay: 0.1s">
-          Mega Packs <span class="accent">Premiums</span>
-        </h1>
-        <p class="hero-sub fade-up" style="transition-delay: 0.2s">
-          Explora nuestra colección curada de herramientas para el profesional moderno. 
-          Selecciona tu software y acelera tu flujo de trabajo hoy mismo.
-        </p>
+        <div class="products-grid" id="catalogGrid">
+          {packs && packs.map((pack) => (
+            <div class="product-card-wrapper fade-up" data-category={pack.categories?.slug || 'other'}>
+              <ProductCard {...pack} />
+            </div>
+          ))}
+        </div>
+
+        {/* Empty State (Hidden by default) */}
+        <div id="empty-state" class="empty-state" style="display: none;">
+          <div class="empty-icon">📂</div>
+          <h3>No se encontraron packs</h3>
+          <p>Lo sentimos, no tenemos packs disponibles en esta categoría por el momento. ¡Vuelve pronto!</p>
+        </div>
       </div>
     </section>
 
-    <!-- GRILLA DINÁMICA DE PRODUCTOS -->
-    <Catalog />
-    
-    <section class="extra-info">
-        <div class="container">
-            <div class="info-grid">
-                <div class="info-card fade-up">
-                    <div class="info-icon">⚡</div>
-                    <h3>Descarga Inmediata</h3>
-                    <p>Tras tu pago, recibes acceso instantáneo a las carpetas en la nube.</p>
-                </div>
-                <div class="info-card fade-up" style="transition-delay: 0.1s">
-                    <div class="info-icon">💎</div>
-                    <h3>Garantía de Calidad</h3>
-                    <p>Contenido verificado por expertos BIM y especialistas en renders.</p>
-                </div>
-                <div class="info-card fade-up" style="transition-delay: 0.2s">
-                    <div class="info-icon">🔄</div>
-                    <h3>Actualizaciones</h3>
-                    <p>Acceso de por vida a nuevas versiones y familias añadidas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <CatalogUpsell />
   </main>
 
   <Footer />
@@ -56,107 +50,94 @@ import Footer from '../components/layout/Footer.astro';
 
 <style>
   main {
-    padding-top: 80px;
-    background: var(--black);
+    background: #000;
+    min-height: 100vh;
   }
 
-  .catalog-hero {
-    padding: 100px 20px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(61, 220, 132, 0.05) 0%, transparent 70%);
-    pointer-events: none;
+  #catalog-grid-section {
+    padding: 60px 40px 80px;
+    background: #000;
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    position: relative;
-    z-index: 2;
   }
 
-  .hero-badge {
-    background: rgba(61, 220, 132, 0.1);
-    color: var(--green);
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: inline-block;
-    margin-bottom: 24px;
-    border: 1px solid rgba(61, 220, 132, 0.2);
-  }
-
-  h1 {
-    font-family: var(--font-display);
-    font-size: clamp(40px, 8vw, 80px);
-    color: var(--white);
-    text-transform: uppercase;
-    line-height: 0.9;
-    margin-bottom: 24px;
-  }
-
-  .hero-sub {
-    font-size: clamp(16px, 1.5vw, 18px);
-    color: var(--subtle);
-    max-width: 600px;
-    margin: 0 auto 40px;
-    line-height: 1.6;
-  }
-
-  /* Extra Info Section */
-  .extra-info {
-    padding: 80px 20px;
-    border-top: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.02);
-  }
-
-  .info-grid {
+  .products-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    min-height: 200px;
   }
 
-  .info-card {
+  .product-card-wrapper {
+    transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .empty-state {
+    padding: 120px 0;
     text-align: center;
-    padding: 32px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    transition: transform 0.3s;
+    color: #444;
+    font-family: var(--font-body);
+    border: 1px dashed rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    grid-column: 1 / -1;
   }
 
-  .info-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(61, 220, 132, 0.3);
-  }
-
-  .info-icon {
-    font-size: 32px;
+  .empty-icon {
+    font-size: 48px;
     margin-bottom: 20px;
+    opacity: 0.3;
   }
 
-  .info-card h3 {
+  .empty-state h3 {
     color: var(--white);
+    font-size: 20px;
     margin-bottom: 12px;
-    font-size: 18px;
   }
 
-  .info-card p {
-    color: var(--subtle);
+  .empty-state p {
     font-size: 14px;
-    line-height: 1.5;
+    max-width: 400px;
+    margin: 0 auto;
+    color: #666;
   }
 
-  @media (max-width: 900px) {
-    .info-grid { grid-template-columns: 1fr; }
+  @media (max-width: 1300px) {
+    .products-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media (max-width: 1100px) {
+    .products-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 800px) {
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    #catalog-grid-section { padding: 40px 20px; }
+  }
+
+  @media (max-width: 600px) {
+    .products-grid { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  // Animation for cards on arrival
+  function initCatalogAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  }
+
+  initCatalogAnimations();
+  document.addEventListener('astro:after-swap', initCatalogAnimations);
+</script>
