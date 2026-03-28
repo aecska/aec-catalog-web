@@ -415,10 +415,34 @@ const fullStars = Math.floor(rating);
     transition: all 0.2s;
   }
 
-  .btn-buy:hover {
-    background: #4de091;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(61, 220, 132, 0.3);
+  @media (max-width: 600px) {
+    .card-body {
+      padding: 12px;
+    }
+
+    .card-name {
+      font-size: 15px;
+    }
+
+    .card-desc {
+      font-size: 11px;
+      -webkit-line-clamp: 2;
+      margin-bottom: 8px;
+    }
+
+    .amount {
+      font-size: 22px;
+    }
+
+    .card-actions {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .btn-details, .btn-buy {
+      padding: 8px;
+      font-size: 9px;
+    }
   }
 </style>
 

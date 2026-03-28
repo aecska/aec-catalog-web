@@ -115,12 +115,19 @@ const { data: packs, error } = await supabase
   }
 
   @media (max-width: 800px) {
-    .products-grid { grid-template-columns: repeat(2, 1fr); }
-    #catalog-grid-section { padding: 40px 20px; }
+    .products-grid { 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 12px;
+    }
+    #catalog-grid-section { padding: 40px 15px; }
   }
 
   @media (max-width: 600px) {
-    .products-grid { grid-template-columns: 1fr; }
+    .products-grid { 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 12px;
+    }
+    #catalog-grid-section { padding: 30px 20px; }
   }
 </style>
 
