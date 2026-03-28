@@ -1,12 +1,22 @@
 ---
 import { supabase } from '../lib/supabase';
 
-// Intentar traer los bundles de la base de datos
-const { data: bundles, error } = await supabase
-  .from('bundles')
-  .select('*')
-  .eq('is_active', true)
-  .limit(4);
+const bundles = [
+  {
+    name: 'Bundle Revit Total',
+    description: 'Acceso total a los 7 packs de Revit. Incluye todas las familias de mobiliario, vegetación, iluminación y plantillas profesionales.',
+    price_normal: 52,
+    price_promo: 39,
+    is_featured: true
+  },
+  {
+    name: 'Bundle AutoCAD Pro',
+    description: 'Lleva los 3 packs de AutoCAD con bloques dinámicos, detalles constructivos y plantillas especializadas para arquitectura.',
+    price_normal: 22,
+    price_promo: 17,
+    is_featured: false
+  }
+];
 ---
 
 <section id="bundles">

@@ -12,9 +12,9 @@ interface Props {
 const { name, slug, price, old_price, image_url, badge, category } = Astro.props;
 
 // Convert format from Drive URL to direct view link if needed
-const directImageUrl = image_url.includes('drive.google.com') 
+const directImageUrl = (image_url && typeof image_url === 'string' && image_url.includes('drive.google.com'))
   ? image_url.replace('file/d/', 'uc?id=').replace('/view?usp=sharing', '')
-  : image_url;
+  : (image_url || '');
 ---
 
 <a href={`/megapack/${slug}`} class="product-card">

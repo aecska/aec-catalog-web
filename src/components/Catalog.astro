@@ -1,0 +1,123 @@
+---
+import { supabase } from '../lib/supabase';
+import ProductCard from './ProductCard.astro';
+
+// Consultar todos los packs de la base de datos
+const { data: packs, error } = await supabase
+  .from('packs')
+  .select('*')
+  .order('created_at', { ascending: false });
+---
+
+<section id="catalog">
+  <div class="catalog-header">
+    <div class="header-content fade-up">
+      <div class="section-label">Explorar Catálogo</div>
+      <h2>Lo más reciente<br />en la tienda</h2>
+      <p class="section-sub">Filtros profesionales para potenciar tus flujos de trabajo.</p>
+    </div>
+  </div>
+
+  <div class="products-grid">
+    {packs && packs.map((pack) => (
+      <ProductCard {...pack} />
+    ))}
+
+    {(!packs || packs.length === 0) && (
+      <div class="empty-state">
+        <p>No se encontraron packs en este momento. Vuelve pronto.</p>
+      </div>
+    )}
+  </div>
+
+  <div class="catalog-footer fade-up">
+    <a href="https://wa.me/19292100867?text=Hola! Quiero ver todo el catálogo dinámico" target="_blank" class="view-all">
+      Ver todos los packs →
+    </a>
+  </div>
+</section>
+
+<style>
+  #catalog {
+    padding: 100px 40px;
+    background: var(--black);
+    position: relative;
+    z-index: 2;
+  }
+
+  .catalog-header {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .section-sub {
+    color: var(--subtle);
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    padding: 80px 0;
+    text-align: center;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+  }
+
+  .catalog-footer {
+    max-width: 1200px;
+    margin: 48px auto 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .view-all {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--subtle);
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .view-all:hover {
+    color: var(--green);
+  }
+
+  @media (max-width: 1200px) {
+    .products-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    #catalog { padding: 70px 20px; }
+  }
+
+  @media (max-width: 600px) {
+    .catalog-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  }
+</style>

@@ -1,0 +1,149 @@
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge fade-up">Packs listos para usar: Arquitectura, Ingeniería y Construcción</div>
+    <h1 class="fade-up" style="transition-delay: 0.1s">
+      Llegaste al
+      <span class="accent">lugar</span>
+      <span class="line2">indicado.</span>
+    </h1>
+    <p class="hero-sub fade-up" style="transition-delay: 0.2s">
+      Nosotros ya filtramos, organizamos y empaquetamos el contenido premium que necesitas.
+      <strong>Cero membresías, un solo pago, acceso para siempre.</strong>
+    </p>
+    <div class="hero-actions fade-up" style="transition-delay: 0.3s">
+      <a href="#catalog" class="btn-primary">
+        Ver los Mega Packs
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+      <div class="trust-belt">
+        <div class="trust-item">
+          <span>⚡</span> Acceso inmediato vía Google Drive
+        </div>
+        <div class="trust-sep">|</div>
+        <div class="trust-item">
+          <span>🔒</span> Compra segura por WhatsApp
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 30%, rgba(61, 220, 132, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 900px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-badge {
+    background: rgba(61, 220, 132, 0.1);
+    color: var(--green);
+    padding: 8px 20px;
+    border-radius: 100px;
+    border: 1px solid rgba(61, 220, 132, 0.2);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(60px, 10vw, 120px);
+    line-height: 0.85;
+    color: var(--white);
+    margin-bottom: 32px;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 .line2 {
+    color: var(--subtle);
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--subtle);
+    max-width: 600px;
+    margin-bottom: 48px;
+    line-height: 1.5;
+  }
+
+  .hero-sub strong {
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: var(--black);
+    padding: 18px 40px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(61, 220, 132, 0.3);
+  }
+
+  .trust-belt {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--muted);
+    font-size: 11px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .trust-sep { opacity: 0.3; }
+
+  @media (max-width: 600px) {
+    #hero { padding: 100px 20px 60px; }
+    .trust-belt { flex-direction: column; gap: 8px; }
+    .trust-sep { display: none; }
+  }
+</style>
