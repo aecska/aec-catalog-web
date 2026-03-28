@@ -1,55 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/layout/Navbar.astro';
-import Bundles from '../components/home/Bundles.astro';
 import Footer from '../components/layout/Footer.astro';
+import BundlesHero from '../components/catalog/BundlesHero.astro';
+import BundlesGrid from '../components/catalog/BundlesGrid.astro';
+import BundlesUpsell from '../components/catalog/BundlesUpsell.astro';
 ---
 
-<Layout title="Bundles AEC — Colecciones Completas en Oferta">
+<Layout title="Bundles Maestros — AEC Resources">
   <Navbar />
   
   <main>
-    <!-- HERO DE BUNDLES -->
-    <section class="bundles-hero">
-      <div class="hero-bg"></div>
-      <div class="container">
-        <div class="hero-badge fade-up">Ofertas de Colección</div>
-        <h1 class="fade-up" style="transition-delay: 0.1s">
-          Bundles <span class="accent">Completos</span>
-        </h1>
-        <p class="hero-sub fade-up" style="transition-delay: 0.2s">
-          El arsenal definitivo para el profesional AEC. 
-          Llévate todos los Mega Packs de tu software favorito con un descuento masivo por tiempo limitado.
-        </p>
-      </div>
-    </section>
-
-    <!-- LISTADO DINÁMICO DE BUNDLES -->
-    <Bundles />
-    
-    <section class="bundle-benefits">
-        <div class="container">
-            <h2 class="fade-up">¿Por qué elegir un Bundle?</h2>
-            <div class="benefits-grid">
-                <div class="b-card fade-up">
-                    <div class="b-number">01</div>
-                    <h3>Economía</h3>
-                    <p>Ahorra más del 25% comparado con la compra de productos individuales.</p>
-                </div>
-                <div class="b-card fade-up" style="transition-delay: 0.1s">
-                    <div class="b-number">02</div>
-                    <h3>Ecosistema</h3>
-                    <p>Ten todas las herramientas de un software (Revit, CAD, D5) sincronizadas.</p>
-                </div>
-                <div class="b-card fade-up" style="transition-delay: 0.2s">
-                    <div class="b-number">03</div>
-                    <h3>Continuidad</h3>
-                    <p>Acceso a todos los cursos y guías incluidos en cada pack del bundle.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <BundlesHero />
+    <BundlesGrid />
+    <BundlesUpsell />
   </main>
 
   <Footer />
@@ -57,117 +21,25 @@ import Footer from '../components/layout/Footer.astro';
 
 <style>
   main {
-    padding-top: 80px;
-    background: var(--black);
-  }
-
-  .bundles-hero {
-    padding: 100px 20px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(61, 220, 132, 0.05) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-  }
-
-  .hero-badge {
-    background: rgba(61, 220, 132, 0.1);
-    color: var(--green);
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: inline-block;
-    margin-bottom: 24px;
-    border: 1px solid rgba(61, 220, 132, 0.2);
-  }
-
-  h1 {
-    font-family: var(--font-display);
-    font-size: clamp(40px, 8vw, 80px);
-    color: var(--white);
-    text-transform: uppercase;
-    line-height: 0.9;
-    margin-bottom: 24px;
-  }
-
-  .hero-sub {
-    font-size: clamp(16px, 1.5vw, 18px);
-    color: var(--subtle);
-    max-width: 600px;
-    margin: 0 auto 40px;
-    line-height: 1.6;
-  }
-
-  /* Section Benefits */
-  .bundle-benefits {
-    padding: 100px 20px;
-    background: linear-gradient(to bottom, transparent, rgba(61, 220, 132, 0.02));
-  }
-
-  .bundle-benefits h2 {
-    text-align: center;
-    font-family: var(--font-display);
-    font-size: 42px;
-    color: var(--white);
-    text-transform: uppercase;
-    margin-bottom: 60px;
-  }
-
-  .benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-  }
-
-  .b-card {
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .b-number {
-    font-family: var(--font-mono);
-    font-size: 60px;
-    font-weight: 800;
-    color: rgba(61, 220, 132, 0.05);
-    position: absolute;
-    top: -10px;
-    right: 20px;
-  }
-
-  .b-card h3 {
-    color: var(--white);
-    font-size: 20px;
-    margin-bottom: 16px;
-    position: relative;
-  }
-
-  .b-card p {
-    color: var(--subtle);
-    font-size: 15px;
-    line-height: 1.6;
-    position: relative;
-  }
-
-  @media (max-width: 900px) {
-    .benefits-grid { grid-template-columns: 1fr; }
+    background: #000;
+    min-height: 100vh;
   }
 </style>
+
+<script>
+  // Animation on scroll
+  function initAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  }
+
+  initAnimations();
+  document.addEventListener('astro:after-swap', initAnimations);
+</script>
