@@ -454,7 +454,17 @@ const getChecklist = (desc: string) => {
     }
 
     .dashboard-actions { flex-direction: column; width: 100%; padding: 0 25px; gap: 12px; }
-    .btn-action { width: 100%; justify-content: center; }
+    .modal { padding: 15px; }
+    .modal-content { border-radius: 8px; }
+
+    .video-wrapper.is-catalog {
+      padding-bottom: 0 !important;
+      height: 75vh;
+    }
+
+    .video-wrapper.is-catalog iframe {
+      height: 100%;
+    }
 
     /* DOTS STYLES */
     .slider-dots {
@@ -501,8 +511,15 @@ const getChecklist = (desc: string) => {
     const fallbackTitle = document.getElementById('fallbackTitle');
     const fallbackMsg = document.getElementById('fallbackMsg');
 
-    const toggleModal = (show: boolean, url: string = '', msgObj?: any) => {
+    const toggleModal = (show: boolean, url: string = '', msgObj?: any, type: string = '') => {
+      const wrapper = modal.querySelector('.video-wrapper');
       if (show) {
+        if (type === 'catalog') {
+          wrapper?.classList.add('is-catalog');
+        } else {
+          wrapper?.classList.remove('is-catalog');
+        }
+
         if (url && url !== '#' && url.trim() !== '') {
           let finalUrl = url;
           // Convert Youtube watch to embed if needed
@@ -550,7 +567,7 @@ const getChecklist = (desc: string) => {
             : 'El catálogo detallado se encuentra en mantenimiento técnico. Estará disponible nuevamente en unos minutos.'
         };
         
-        toggleModal(true, url, fallbackInfo);
+        toggleModal(true, url, fallbackInfo, type);
       });
     });
 
