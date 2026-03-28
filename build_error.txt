@@ -1,0 +1,29 @@
+﻿
+> aec-web@0.0.1 build
+> astro build
+
+[2m22:20:52[22m [34m[types][39m Generated [2m44ms[22m
+[2m22:20:52[22m [34m[build][39m output: [34m"static"[39m
+[2m22:20:52[22m [34m[build][39m mode: [34m"static"[39m
+[2m22:20:52[22m [34m[build][39m directory: [34mD:\aec2\aec-web\dist\[39m
+[2m22:20:52[22m [34m[build][39m Collecting build info...
+[2m22:20:52[22m [34m[build][39m [32mΓ£ô Completed in 60ms.[39m
+[2m22:20:52[22m [34m[build][39m Building static entrypoints...
+node.exe : [31m[1m22:20:53[22m [ERROR] [vite][39m 
+[31mΓ£ù[39m Build failed in 711ms
+En C:\Program Files\nodejs\npm.ps1: 29 Carácter: 3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([31m[1m2 
+   2:20:...failed in 711ms:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Could not resolve "../components/Footer.astro" from 
+"src/pages/bundles.astro"
+file: D:/aec2/aec-web/src/pages/bundles.astro
+  [1mStack trace:[22m
+[2m    at getRollupError (file:///D:/aec2/aec-web/node_
+modules/rollup/dist/es/shared/parseAst.js:406:41)
+    at ModuleLoader.handleInvalidResolvedId (file:///D:/
+aec2/aec-web/node_modules/rollup/dist/es/shared/node-ent
+ry.js:21765:24)[22m
