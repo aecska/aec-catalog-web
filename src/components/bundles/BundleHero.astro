@@ -1,0 +1,244 @@
+---
+interface Props {
+  bundle: any;
+}
+
+const { bundle } = Astro.props;
+
+// Formatting prices
+const priceTotal = bundle.price_total ? Number(bundle.price_total).toFixed(2) : null;
+const priceDiscount = bundle.price_discount ? Number(bundle.price_discount).toFixed(2) : '0.00';
+const [priceInt, priceDec] = priceDiscount.split('.');
+
+const stats = bundle.hero_stats || [];
+---
+
+<section id="hero">
+  <div class="hero-content">
+    <div class="software-label fade-up">COLECCIÓN COMPLETA {bundle.categories?.name}</div>
+    
+    <h1 class="fade-up" style="transition-delay: 0.1s">
+      {bundle.name} <span class="accent">{bundle.hero_title}</span>
+    </h1>
+    
+    <!-- STATS BAR (Conversion Booster) -->
+    {stats.length > 0 && (
+      <div class="stats-bar fade-up" style="transition-delay: 0.2s">
+        {stats.map((stat, index) => (
+          <>
+            <div class="stat-item">
+              <div class="stat-value">{stat.text.split(' ')[0]}</div>
+              <div class="stat-label">{stat.text.split(' ').slice(1).join(' ')}</div>
+            </div>
+            {index < stats.length - 1 && <div class="stat-sep"></div>}
+          </>
+        ))}
+      </div>
+    )}
+
+    <p class="section-sub fade-up" style="max-width: 650px; transition-delay: 0.3s">
+      {bundle.hero_subtitle}
+    </p>
+
+    <div class="price-large fade-up" style="margin-top: 0; transition-delay: 0.4s">
+      {priceTotal && <div class="price-old-large">${priceTotal}</div>}
+      <div class="price-new-large">${priceInt}<sup>.{priceDec}</sup></div>
+    </div>
+
+    <div class="hero-actions fade-up" style="transition-delay: 0.5s">
+      <a href={`https://wa.me/573133144700?text=Hola! Quiero el ${bundle.name} completo ($${priceDiscount} USD)`} 
+         target="_blank" 
+         class="nav-cta-giant">
+        Quiero el {bundle.name} Completo
+      </a>
+      <p class="trust-note">🔒 Acceso inmediato por Google Drive de por vida.</p>
+    </div>
+  </div>
+
+  <!-- Background Glows -->
+  <div class="hero-glow"></div>
+</section>
+
+<style>
+  #hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 160px 20px 100px;
+    text-align: center;
+    background: #080808;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+  }
+
+  .software-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .software-label::before,
+  .software-label::after {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--green);
+    opacity: 0.5;
+  }
+  
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(50px, 9vw, 110px);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    margin-bottom: 12px; /* Revertido a compactación máxima */
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 16px; /* Aún más pegado para compactar el Hero */
+    flex-wrap: wrap;
+    padding: 20px 0;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 32px; /* Aún más pequeño por solicitud del usuario */
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 7.5px; /* Reducción extrema para un look ultra-técnico */
+    color: var(--green);
+    letter-spacing: 3px; /* Aumento de espaciado para compensar el tamaño */
+    text-transform: uppercase;
+    margin-top: 2px; /* Pegado casi al máximo */
+    font-weight: 700;
+  }
+
+  .stat-sep {
+    width: 1px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .section-sub {
+    font-size: 14px; /* Reducido como se solicitó */
+    color: var(--subtle);
+    font-weight: 400;
+    line-height: 1.6;
+    margin: 0 auto 12px; /* Aún más pegado para compactar el Hero */
+    opacity: 0.8;
+  }
+
+  /* PRICING */
+  .price-large {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 16px; /* Reducido para acercar el botón de compra */
+  }
+
+  .price-old-large {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--subtle);
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  .price-new-large {
+    font-family: var(--font-display);
+    font-size: 90px;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  .price-new-large sup {
+    font-size: 32px;
+    vertical-align: super;
+    font-family: var(--font-body);
+    margin-left: 2px;
+    opacity: 0.8;
+  }
+
+  /* CTA */
+  .nav-cta-giant {
+    background: #25d366;
+    color: #000;
+    padding: 16px 48px; /* Reducido para un aspecto más profesional */
+    font-size: 17px;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 8px;
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-transform: uppercase;
+    box-shadow: 0 20px 40px rgba(37, 211, 102, 0.2);
+  }
+
+  .nav-cta-giant:hover {
+    transform: scale(1.05) translateY(-5px);
+    background: #2ee274;
+    box-shadow: 0 30px 60px rgba(37, 211, 102, 0.4);
+  }
+
+  .trust-note {
+    margin-top: 16px; /* Más pegada al botón */
+    font-size: 13px;
+    color: var(--subtle);
+    opacity: 0.6;
+  }
+
+  /* GLOWS */
+  .hero-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(61, 220, 132, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    #hero { padding-top: 120px; }
+    h1 { font-size: 60px; }
+    .stats-bar { gap: 20px; padding: 20px; }
+    .stat-value { font-size: 32px; }
+    .price-new-large { font-size: 60px; }
+    .nav-cta-giant { padding: 18px 40px; font-size: 16px; width: 100%; }
+    .stat-sep { display: none; }
+  }
+</style>

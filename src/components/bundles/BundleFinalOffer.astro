@@ -1,0 +1,177 @@
+---
+interface Props {
+  bundle: any;
+}
+
+const { bundle } = Astro.props;
+
+const priceTotal = bundle.price_total ? Number(bundle.price_total).toFixed(2) : null;
+const priceDiscount = bundle.price_discount ? Number(bundle.price_discount).toFixed(2) : '0.00';
+const [priceInt, priceDec] = priceDiscount.split('.');
+---
+
+<section class="bundle-offer" id="final-offer">
+  <div class="bundle-card-large fade-up">
+    {bundle.saving_percentage && (
+      <div class="savings-tag">AHORRAS {bundle.saving_percentage}%</div>
+    )}
+    
+    <div class="section-label">OFERTA IRRECHAZABLE</div>
+    
+    <h2 style="margin-top: 10px;">Lleva toda la colección {bundle.categories?.name}</h2>
+    
+    <p class="section-sub-offer">
+      {bundle.hero_subtitle}
+    </p>
+    
+    <div class="price-large-offer">
+      {priceTotal && <div class="price-old-offer">${priceTotal}</div>}
+      <div class="price-new-offer">${priceInt}<sup>.{priceDec}</sup></div>
+    </div>
+
+    <a href={`https://wa.me/573133144700?text=Hola! Quiero el ${bundle.name} completo ($${priceDiscount} USD)`} 
+       target="_blank" 
+       class="nav-cta-offer">
+      Comprar Todo por ${priceDiscount} USD
+    </a>
+    <p class="offer-footer">Incluye soporte VIP y acceso de por vida.</p>
+  </div>
+</section>
+
+<style>
+  .bundle-offer {
+    padding: 120px 20px;
+    background: #080808;
+    text-align: center;
+  }
+
+  .bundle-card-large {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #111111;
+    border: 1px solid rgba(61, 220, 132, 0.2);
+    padding: 80px 40px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(61, 220, 132, 0.03) 0%, #111111 60%);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+  }
+
+  .savings-tag {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    background: #ff3b3b;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 16px rgba(255, 59, 59, 0.2);
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 6vw, 84px);
+    line-height: 0.9;
+    color: var(--white);
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .section-sub-offer {
+    font-size: 16px;
+    color: var(--subtle);
+    max-width: 600px;
+    margin: 24px auto 0;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* PRICING */
+  .price-large-offer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin: 60px 0;
+  }
+
+  .price-old-offer {
+    font-family: var(--font-display);
+    font-size: 42px;
+    color: var(--subtle);
+    text-decoration: line-through;
+    opacity: 0.4;
+  }
+
+  .price-new-offer {
+    font-family: var(--font-display);
+    font-size: 110px;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: -3px;
+  }
+
+  .price-new-offer sup {
+    font-size: 32px;
+    vertical-align: super;
+    font-family: var(--font-body);
+    margin-left: 2px;
+    opacity: 0.8;
+  }
+
+  /* CTA */
+  .nav-cta-offer {
+    background: #25d366;
+    color: #000;
+    padding: 24px 60px;
+    font-size: 20px;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-transform: uppercase;
+    box-shadow: 0 20px 40px rgba(37, 211, 102, 0.2);
+  }
+
+  .nav-cta-offer:hover {
+    transform: scale(1.03) translateY(-4px);
+    background: #2ee274;
+    box-shadow: 0 30px 60px rgba(37, 211, 102, 0.4);
+  }
+
+  .offer-footer {
+    margin-top: 32px;
+    color: var(--subtle);
+    font-size: 13px;
+    opacity: 0.6;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 600px) {
+    .bundle-card-large { padding: 60px 24px; }
+    .price-large-offer { flex-direction: column; gap: 8px; }
+    .price-new-offer { font-size: 80px; }
+    .nav-cta-offer { padding: 18px 30px; font-size: 16px; }
+    .savings-tag { position: relative; top: 0; right: 0; display: inline-block; margin-bottom: 24px; }
+  }
+</style>

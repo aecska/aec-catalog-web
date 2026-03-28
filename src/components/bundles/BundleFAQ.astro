@@ -1,0 +1,161 @@
+---
+interface Props {
+  faq: any[];
+}
+
+const { faq } = Astro.props;
+
+// Default FAQ if none provided
+const defaultFaq = [
+  { q: '¿Cómo se entrega el bundle?', a: 'Recibes acceso directo a una carpeta privada en Google Drive con todos los archivos organizados por volumen.' },
+  { q: '¿Es compatible con mi versión de Revit?', a: 'Sí, las familias y plantillas son compatibles con Revit 2018 hasta 2024.' }
+];
+
+const displayFaq = faq && faq.length > 0 ? faq : defaultFaq;
+---
+
+<section id="faq">
+  <div class="section-header fade-up">
+    <div class="section-label">FAQ BUNDLE</div>
+    <h2>DUDAS FRECUENTES</h2>
+  </div>
+  
+  <div class="faq-container">
+    {displayFaq.map((item, index) => (
+      <div class="faq-item fade-up" style={`transition-delay: ${index * 0.1}s`}>
+        <div class="faq-question">
+          <span>{item.q}</span>
+        </div>
+        <div class="faq-answer">
+          {item.a}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  #faq {
+    padding: 120px 40px;
+    background: #080808;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 60px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--green);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 5vw, 64px);
+    margin-bottom: 20px;
+    color: var(--white);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .faq-container {
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .faq-item {
+    background: #111111;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .faq-item:hover {
+    border-color: rgba(61, 220, 132, 0.2);
+  }
+
+  .faq-question {
+    padding: 24px 32px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--white);
+    transition: all 0.2s;
+  }
+
+  .faq-question::after {
+    content: '+';
+    color: var(--green);
+    font-size: 24px;
+    font-family: var(--font-mono);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .faq-item.active .faq-question::after {
+    transform: rotate(45deg);
+    color: #ff3b3b;
+  }
+
+  .faq-item.active .faq-question {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .faq-answer {
+    padding: 0 32px 32px;
+    display: none;
+    color: var(--subtle);
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 300;
+    border-top: 1px solid transparent;
+  }
+
+  .faq-item.active .faq-answer {
+    display: block;
+    padding-top: 12px;
+    border-top-color: rgba(255, 255, 255, 0.03);
+  }
+
+  @media (max-width: 600px) {
+    #faq { padding: 80px 20px; }
+    .faq-question { padding: 20px 24px; font-size: 15px; }
+    .faq-answer { padding: 0 24px 24px; font-size: 14px; }
+  }
+</style>
+
+<script>
+  function initBundleFaq() {
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        if (!item) return;
+        
+        // Toggle active class
+        item.classList.toggle('active');
+        
+        // Optional: Close other items (AEC accordion behavior)
+        /*
+        document.querySelectorAll('.faq-item').forEach(otherItem => {
+          if (otherItem !== item) otherItem.classList.remove('active');
+        });
+        */
+      });
+    });
+  }
+
+  initBundleFaq();
+  document.addEventListener('astro:after-swap', initBundleFaq);
+</script>
