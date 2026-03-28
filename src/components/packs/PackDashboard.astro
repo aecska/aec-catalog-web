@@ -1,0 +1,229 @@
+---
+interface Props {
+  pack: any;
+}
+
+const { pack } = Astro.props;
+const accentColor = pack.categories?.accent_color || 'var(--green)';
+
+const cards = pack.content_cards || [
+  { type: 'catalog', title: 'BIBLIOTECAS COMPLETAS', description: 'Acceso total a catálogos premium filtrados por expertos.' },
+  { type: 'video', title: 'GUÍAS DE INSTALACIÓN', description: 'Tutoriales paso a paso para configurar todo el contenido.' },
+  { type: 'drive', title: 'ACCESO GOOGLE DRIVE', description: 'Todo el contenido organizado en la nube para descarga inmediata.' }
+];
+---
+
+<section id="dashboard">
+  <div class="dashboard-container">
+    <div class="dashboard-header fade-up">
+      <div class="section-label">¿Qué estás adquiriendo?</div>
+      <h2>ESTE PACK ES EL <span style={`color: ${accentColor}`}>RESULTADO</span> DE AÑOS DE FILTRADO</h2>
+      <p class="section-sub">
+        Olvídate de buscar por horas. Hemos compilado solo lo mejor para que tú solo tengas que crear.
+      </p>
+    </div>
+
+    <div class="content-grid">
+      {cards.map((card, index) => (
+        <div 
+          class={`content-card fade-up ${card.type === 'drive' ? 'featured' : ''}`} 
+          style={`transition-delay: ${index * 0.1}s; --accent: ${accentColor}`}
+        >
+          <div class="card-title">
+            <span class="card-icon">
+              {card.type === 'catalog' && '📁'}
+              {card.type === 'video' && '🎥'}
+              {card.type === 'drive' && '🚀'}
+              {!card.type && '✨'}
+            </span>
+            {card.title || card.label}
+          </div>
+          
+          <p class="card-desc">
+            {card.description || 'Contenido premium garantizado para elevar la calidad de tus proyectos AEC.'}
+          </p>
+
+          <ul class="card-list">
+            <li><span>✔</span> Contenido 100% Curado</li>
+            <li><span>✔</span> Sin Archivos Corruptos</li>
+            <li><span>✔</span> Organización Lógica</li>
+          </ul>
+
+          <div class="card-footer">
+            <a href={card.url || '#'} target="_blank" class={`btn-view ${card.type === 'drive' ? 'primary' : ''}`}>
+              {card.type === 'drive' ? 'Entrar al Drive' : 'Ver Muestra'}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17l9.2-9.2M17 17V7H7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  #dashboard {
+    background: var(--dark);
+    padding: 100px 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .dashboard-container {
+    max-width: 950px;
+    margin: 0 auto;
+  }
+
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 60px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--subtle);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1;
+    margin-bottom: 24px;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .section-sub {
+    font-size: 17px;
+    color: var(--subtle);
+    line-height: 1.6;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+  }
+
+  .content-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    padding: 40px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .content-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .content-card.featured {
+    background: linear-gradient(180deg, rgba(61, 220, 132, 0.05) 0%, rgba(8, 8, 8, 0) 100%);
+    border-color: rgba(61, 220, 132, 0.3);
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  .card-icon {
+    font-size: 28px;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+  }
+
+  .card-desc {
+    font-size: 15px;
+    color: var(--subtle);
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .card-list {
+    list-style: none;
+    margin-top: auto;
+    margin-bottom: 30px;
+  }
+
+  .card-list li {
+    font-size: 14px;
+    color: var(--light);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+  }
+
+  .card-list li span {
+    color: var(--accent);
+    font-weight: 900;
+  }
+
+  .card-footer {
+    display: flex;
+    gap: 12px;
+  }
+
+  .btn-view {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+  }
+
+  .btn-view:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--subtle);
+  }
+
+  .btn-view.primary {
+    background: var(--accent);
+    color: var(--black);
+    border-color: var(--accent);
+  }
+
+  .btn-view.primary:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    #dashboard { padding: 80px 20px; }
+    .content-grid { grid-template-columns: 1fr; }
+  }
+</style>

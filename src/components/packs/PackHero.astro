@@ -1,0 +1,320 @@
+---
+interface Props {
+  pack: any;
+}
+
+const { pack } = Astro.props;
+const accentColor = pack.categories?.accent_color || 'var(--green)';
+
+// Format Title: Highlight software names or versions
+const formatTitle = (title: string) => {
+  if (!title) return '';
+  return title
+    .replace('REVIT', `<span style="color: ${accentColor}">REVIT</span>`)
+    .replace('AUTOCAD', `<span style="color: ${accentColor}">AUTOCAD</span>`)
+    .replace('D5 RENDER', `<span style="color: ${accentColor}">D5 RENDER</span>`)
+    .replace('LUMION', `<span style="color: ${accentColor}">LUMION</span>`)
+    .replace('3DS MAX', `<span style="color: ${accentColor}">3DS MAX</span>`)
+    .replace('SKETCHUP', `<span style="color: ${accentColor}">SKETCHUP</span>`)
+    .replace('7.0', '<span class="gray">7.0</span>')
+    .replace('2024', '<span class="gray">2024</span>');
+};
+---
+
+<section id="hero-pack">
+  <div class="hero-content">
+    <div class="hero-header-row fade-up">
+      <div class="software-label" style={`--accent: ${accentColor}`}>
+        BIBLIOTECA DE {pack.categories?.name || 'AEC'} PRO
+      </div>
+      <div class="stars-social">
+        <span class="stars">★★★★★</span>
+        <span class="votes">({pack.rating || '4.9'}/5) • {pack.votes?.toLocaleString() || '12,347'} votos</span>
+        <button class="btn-like-mini" aria-label="Añadir a favoritos">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span class="like-count">1.2k</span>
+        </button>
+      </div>
+    </div>
+    
+    <h1 class="fade-up" style="transition-delay: 0.1s" set:html={formatTitle(`${pack.name} — ${pack.hero_title || ''}`)} />
+    
+    <p class="hero-sub fade-up" style="transition-delay: 0.2s">
+      {pack.hero_subtitle || 'Nosotros ya filtramos, organizamos y empaquetamos el contenido premium que necesitas.'}
+    </p>
+
+    <!-- VALUE BAR (DYNAMIC STATS) -->
+    <div class="value-bar fade-up" style="transition-delay: 0.3s">
+      {(pack.hero_stats || [
+        { icon: '📁', text: 'Acceso Vitalicio' },
+        { icon: '🚀', text: 'Google Drive' },
+        { icon: '⚡', text: 'Descarga Inmediata' }
+      ]).map((stat, index) => (
+        <>
+          <div class="value-item">
+            <span class="stat-icon">{stat.icon}</span> {stat.text}
+          </div>
+          {index < (pack.hero_stats || []).length - 1 && <div class="value-sep"></div>}
+        </>
+      ))}
+    </div>
+
+    <div class="hero-actions fade-up" style="transition-delay: 0.4s">
+        <a href={`https://wa.me/573133144700?text=Hola! Me interesa comprar el ${pack.name}. Enviame los métodos de pago.`} target="_blank" class="btn-buy-giant" style={`--accent: ${accentColor}`}>
+          QUIERO ESTE PACK — ${pack.price?.toLocaleString() || '0'} USD
+        </a>
+      <div class="trust-signal">
+        <span>🔒</span> Pago seguro 100% garantizado por WhatsApp
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #hero-pack {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 40px 80px;
+    text-align: center;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
+  }
+
+  .hero-content {
+    max-width: 950px;
+  }
+
+  .hero-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .software-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .software-label::before, .software-label::after {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  .stars-social { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    background: rgba(255, 255, 255, 0.03);
+    padding: 6px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+
+  .stars { color: #d4a843; font-size: 14px; }
+  .votes { color: var(--subtle); font-size: 13px; font-weight: 300; }
+
+  .btn-like-mini {
+    background: transparent;
+    border: none;
+    color: var(--subtle);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    padding-left: 12px;
+    border-left: 1px solid var(--border);
+  }
+
+  .btn-like-mini:hover {
+    color: #ff4b4b;
+    transform: scale(1.1);
+  }
+
+  .btn-like-mini.active {
+    color: #ff4b4b;
+  }
+
+  .btn-like-mini.active svg {
+    fill: #ff4b4b;
+  }
+
+  .like-count {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 7.5vw, 100px);
+    line-height: 0.95;
+    letter-spacing: -2px;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+
+  h1 :global(.gray) {
+    color: var(--subtle);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--subtle);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 850px;
+    margin: 0 auto 44px;
+  }
+
+  .value-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .value-item { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    font-family: var(--font-mono); 
+    font-size: 13px; 
+    color: var(--white); 
+  }
+
+  .stat-icon {
+    font-size: 16px;
+  }
+
+  .value-sep { width: 1px; height: 20px; background: rgba(255, 255, 255, 0.1); }
+
+  .btn-buy-giant {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--accent);
+    color: var(--black);
+    padding: 24px 60px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+    font-family: var(--font-display);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    width: 100%;
+    justify-content: center;
+    max-width: 600px;
+  }
+
+  .btn-like {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--white);
+    padding: 0 24px;
+    height: 72px; /* Maching Buy Button height approx */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .btn-like:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--subtle);
+    color: #ff4b4b;
+  }
+
+  .btn-like.active {
+    background: rgba(255, 75, 75, 0.1);
+    border-color: #ff4b4b;
+    color: #ff4b4b;
+  }
+
+  .btn-like.active svg {
+    fill: #ff4b4b;
+  }
+
+  .like-count {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    opacity: 0.8;
+  }
+
+  .btn-buy-giant:hover { 
+    transform: translateY(-4px) scale(1.02); 
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.4); 
+    background: var(--white);
+  }
+
+  .trust-signal { 
+    margin-top: 16px; 
+    font-size: 13px; 
+    color: var(--subtle); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px; 
+  }
+
+  @media (max-width: 900px) {
+    .hero-header-row { flex-direction: column; gap: 10px; }
+    .stars-social { width: 100%; justify-content: center; }
+    .value-bar { border-radius: 20px; padding: 20px; gap: 16px; }
+    .value-sep { display: none; }
+    .btn-buy-giant { width: 100%; justify-content: center; padding: 20px; }
+  }
+</style>
+
+<script>
+  function initLike() {
+    const likeBtn = document.querySelector('.btn-like-mini');
+    if (likeBtn) {
+      likeBtn.addEventListener('click', () => {
+        likeBtn.classList.toggle('active');
+        const count = likeBtn.querySelector('.like-count');
+        if (count) {
+          if (likeBtn.classList.contains('active')) {
+            count.textContent = '1.3k';
+          } else {
+            count.textContent = '1.2k';
+          }
+        }
+      });
+    }
+  }
+
+  initLike();
+  document.addEventListener('astro:after-swap', initLike);
+</script>

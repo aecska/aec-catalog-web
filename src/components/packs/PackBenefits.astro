@@ -1,0 +1,130 @@
+---
+interface Props {
+  pack: any;
+}
+
+const { pack } = Astro.props;
+const accentColor = pack.categories?.accent_color || 'var(--green)';
+
+const standardBenefits = [
+  { icon: '🚀', title: 'Flujo Optimizado', description: 'Basta de buscar. Accede al contenido premium ya filtrado y listo para tus proyectos.' },
+  { icon: '✨', title: 'Acabados de Lujo', description: 'Eleva la estética de tus entregas con texturas y modelos de estándar internacional.' },
+  { icon: '🔒', title: 'Compra Garantizada', description: 'Soporte humano por WhatsApp para resolver cualquier duda en tiempo real.' }
+];
+
+const benefits = pack.benefits && pack.benefits.length > 0 ? pack.benefits : standardBenefits;
+---
+
+<section id="benefits">
+  <div class="container">
+    <div class="benefits-header fade-up">
+      <div class="section-label">¿Por qué Aegis?</div>
+      <h2>EL ESTÁNDAR <span style={`color: ${accentColor}`}>PROFESIONAL</span></h2>
+    </div>
+
+    <div class="benefits-grid">
+      {benefits.map((benefit, index) => (
+        <div class="benefit-card fade-up" style={`transition-delay: ${index * 0.1}s; --accent: ${accentColor}`}>
+          <div class="benefit-icon">{benefit.icon || '💎'}</div>
+          <h3>{benefit.title}</h3>
+          <p>{benefit.description || 'Contenido premium curado para profesionales de alto rendimiento.'}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  #benefits {
+    padding: 100px 40px;
+    background: #000;
+  }
+
+  .container {
+    max-width: 950px;
+    margin: 0 auto;
+  }
+
+  .benefits-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--subtle);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+  }
+
+  .benefit-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    padding: 48px;
+    border-radius: 16px;
+    transition: 0.3s;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 0;
+    background: var(--accent);
+    transition: 0.5s;
+  }
+
+  .benefit-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .benefit-card:hover::before {
+    height: 100%;
+  }
+
+  .benefit-icon {
+    font-size: 40px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  p {
+    font-size: 15px;
+    color: var(--subtle);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    #benefits { padding: 80px 20px; }
+  }
+</style>

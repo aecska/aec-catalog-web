@@ -1,0 +1,163 @@
+---
+interface Props {
+  pack: any;
+}
+
+const { pack } = Astro.props;
+const accentColor = pack.categories?.accent_color || 'var(--green)';
+
+// Mock images if not present in DB
+const row1 = pack.showcase_row1 || [
+  'https://images.unsplash.com/photo-1503387762-592dee58c460?auto=format&fit=crop&q=80&w=1000',
+  'https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&q=80&w=1000',
+  'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1000',
+  'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&q=80&w=1000'
+];
+
+const row2 = pack.showcase_row2 || [
+  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1000',
+  'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000',
+  'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=1000',
+  'https://images.unsplash.com/photo-1448630305452-03973c332dba?auto=format&fit=crop&q=80&w=1000'
+];
+---
+
+<section id="showcase">
+  <div class="showcase-header fade-up">
+    <div class="section-label">Vista Previa Real</div>
+    <h2>CONTENIDO <span style={`color: ${accentColor}`}>PREMIUM</span> EN DETALLE</h2>
+  </div>
+
+  <div class="marquee-wrapper">
+    <!-- Row 1 -->
+    <div class="marquee-row">
+      <div class="marquee-content">
+        {[...row1, ...row1].map((img) => (
+          <div class="marquee-item">
+            <img src={img} alt="Screenshot" loading="lazy" />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="marquee-row row-reverse">
+      <div class="marquee-content">
+        {[...row2, ...row2].map((img) => (
+          <div class="marquee-item">
+            <img src={img} alt="Screenshot" loading="lazy" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #showcase {
+    padding: 100px 0;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .showcase-header {
+    text-align: center;
+    padding: 0 40px;
+    margin-bottom: 60px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--subtle);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .marquee-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .marquee-row {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    user-select: none;
+  }
+
+  .marquee-content {
+    display: flex;
+    gap: 32px;
+    animation: marquee-scroll 60s linear infinite;
+  }
+
+  .row-reverse .marquee-content {
+    animation-direction: reverse;
+  }
+
+  .marquee-item {
+    width: 400px;
+    aspect-ratio: 16/10;
+    background: #111;
+    border-radius: 12px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+
+  .marquee-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.5));
+    opacity: 0;
+    transition: 0.3s;
+  }
+
+  .marquee-item:hover {
+    transform: scale(1.05);
+    border-color: var(--green);
+    z-index: 10;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+
+  .marquee-item:hover::after {
+    opacity: 1;
+  }
+
+  .marquee-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: 0.4s;
+  }
+
+  .marquee-item:hover img {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  @keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 768px) {
+    .marquee-item { width: 280px; }
+    .marquee-content { gap: 16px; }
+  }
+</style>
