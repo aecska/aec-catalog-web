@@ -2,21 +2,20 @@
 import { supabase } from '../../lib/supabase';
 import ProductCard from '../shared/ProductCard.astro';
 
-// Consultar los 8 packs más destacados (4x2)
+// Consultar los 10 packs más destacados (5x2)
 const { data: packs, error } = await supabase
   .from('packs')
   .select('*, categories(*)')
-  .order('rating', { ascending: false })
-  .limit(8);
+  .order('created_at', { ascending: false })
+  .limit(10);
 ---
 
 <section id="catalog">
   <div class="catalog-header fade-up">
     <div class="section-label">Lo más reciente en la tienda</div>
-    <h2>Mega Packs <span class="accent">Destacados</span></h2>
+    <h2>Mega Packs Destacados</h2>
     <p class="section-sub">
-      Herramientas de alto nivel diseñadas para potenciar <br />
-      tus flujos de trabajo profesionales.
+      Herramientas de alto nivel diseñadas para potenciar tus flujos de trabajo profesionales.
     </p>
   </div>
 
@@ -48,7 +47,7 @@ const { data: packs, error } = await supabase
   }
 
   .catalog-header {
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto 80px;
     text-align: center;
   }
@@ -77,18 +76,18 @@ const { data: packs, error } = await supabase
   }
 
   .section-sub {
-    color: var(--subtle);
-    font-size: clamp(16px, 1.5vw, 18px);
-    line-height: 1.6;
-    max-width: 600px;
+    color: #888; /* matched with hero-sub in Hero.astro */
+    font-size: clamp(14px, 1.4vw, 16px); /* matched with hero-sub in Hero.astro */
+    line-height: 1.5;
+    max-width: 650px;
     margin: 0 auto;
   }
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    max-width: 1400px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    max-width: 1500px;
     margin: 0 auto 60px;
   }
 
@@ -127,11 +126,15 @@ const { data: packs, error } = await supabase
     border-color: rgba(61, 220, 132, 0.5);
     color: var(--green);
   }
-  @media (max-width: 1200px) {
+  @media (max-width: 1300px) {
+    .products-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media (max-width: 1100px) {
     .products-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 800px) {
     .products-grid { grid-template-columns: repeat(2, 1fr); }
     #catalog { padding: 70px 20px; }
   }

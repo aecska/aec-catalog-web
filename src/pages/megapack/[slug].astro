@@ -57,7 +57,7 @@ const getDirectUrl = (url) => {
         
         <h1 set:html={(pack.hero_title || pack.name).replace('REVIT', '<span class="accent">REVIT</span>').replace('7.0', '<span class="gray">7.0</span>')} />
         
-        <p class="hero-sub">{pack.hero_subtitle || pack.short_desc}</p>
+        <p class="hero-sub">{pack.hero_subtitle}</p>
 
         <!-- VALUE BAR (DYNAMIC STATS) -->
         <div class="value-bar">

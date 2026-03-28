@@ -1,69 +1,137 @@
 ---
 interface Props {
+  id: string;
   name: string;
   slug: string;
   price: number;
   old_price?: number;
   image_url: string;
   badge?: string;
-  category?: string;
+  hero_subtitle?: string;
+  rating?: number;
+  votes?: number;
   categories?: {
     name: string;
     accent_color: string;
   };
 }
 
-const { name, slug, price, old_price, image_url, badge, category, categories } = Astro.props;
+const { id, name, slug, price, old_price, image_url, badge, hero_subtitle, rating = 4.9, votes = 12347, categories } = Astro.props;
 
-// Usar el nombre de la categoría del objeto unido, o el string legacy, o nada
-const displayCategory = categories?.name || category || '';
+const displayCategory = categories?.name || '';
+const accentColor = categories?.accent_color || 'var(--green)';
 
-// Convert format from Drive URL to direct view link if needed
-const directImageUrl = (image_url && typeof image_url === 'string' && image_url.includes('drive.google.com'))
-  ? image_url.replace('file/d/', 'uc?id=').split('&')[0].split('/view')[0]
-  : (image_url || '');
+// Helper to convert Drive URL
+const getDirectUrl = (url: string) => {
+  if (!url) return '';
+  if (url.includes('drive.google.com')) {
+    // Handling /file/d/[ID]/view or ?id=[ID]
+    const idMatch = url.match(/\/d\/(.+?)\//) || url.match(/[?&]id=(.+?)(&|$)/);
+    const id = idMatch ? idMatch[1] : '';
+    // lh3 is more reliable for direct image serving from Drive
+    return id ? `https://lh3.googleusercontent.com/d/${id}` : url;
+  }
+  return url;
+};
+
+const directImageUrl = getDirectUrl(image_url);
+
+// Generate stars
+const fullStars = Math.floor(rating);
 ---
 
-<a href={`/megapack/${slug}`} class="product-card">
-  <div class="card-img">
+<div class="product-card">
+  <a href={`/megapack/${slug}`} class="card-link-overlay"></a>
+  
+  <div class="card-img" style={`border-bottom: 2px solid ${accentColor}22`}>
     <img src={directImageUrl} alt={name} loading="lazy" />
-    {badge && <div class="card-badge-new">{badge}</div>}
-    <div class="card-tag">{displayCategory}</div>
-  </div>
-  <div class="card-body">
-    <h3 class="card-name">{name}</h3>
-    <div class="card-footer">
-      <div class="price">
-        <sup>$</sup>{price.toLocaleString()}
+    
+    <!-- Background Identifier Text -->
+    <div class="bg-text-overlay">{displayCategory.substring(0, 5).toUpperCase()}</div>
+    
+    <div class="card-labels">
+      <div class="label-tech" style={`background: ${accentColor}22; color: ${accentColor}; border: 1px solid ${accentColor}44`}>
+        {displayCategory.toUpperCase()}
       </div>
-      <div class="card-btns">
-        <span class="btn-card">Detalles</span>
-      </div>
+      {badge && (
+        <div class="label-status">
+          {badge.toUpperCase()}
+        </div>
+      )}
     </div>
   </div>
-</a>
+
+  <div class="card-body">
+    <h3 class="card-name">{name}</h3>
+    <p class="card-desc">{hero_subtitle || 'Herramientas de alto nivel diseñadas para potenciar tus flujos de trabajo.'}</p>
+    
+    <div class="card-rating">
+      <div class="rating-info">
+        <div class="stars">
+          {[...Array(5)].map((_, i) => (
+            <span class={i < fullStars ? 'star active' : 'star'}>★</span>
+          ))}
+        </div>
+        <span class="rating-val">{rating.toFixed(1)}</span>
+        <span class="votes-count js-votes-count">({votes.toLocaleString()})</span>
+      </div>
+      
+      <button class="btn-like js-like-btn" data-id={id} data-name={name} title="Me gusta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="card-price">
+      {old_price && (
+        <div class="old-price-container">
+          <span class="old-currency">$</span>
+          <span class="old-amount">{old_price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+        </div>
+      )}
+      <div class="current-price">
+        <span class="currency">$</span>
+        <span class="amount">{price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+        <span class="unit">USD</span>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <a href={`/megapack/${slug}`} class="btn-details">VER DETALLES</a>
+      <a href={`https://wa.me/19292100867?text=Hola! Me interesa el ${name}`} target="_blank" class="btn-buy">COMPRAR</a>
+    </div>
+  </div>
+</div>
 
 <style>
   .product-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
     overflow: hidden;
-    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-    cursor: pointer;
-    text-decoration: none;
-    display: block;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
   .product-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(61, 220, 132, 0.3);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+    transform: translateY(-8px);
+    border-color: rgba(61, 220, 132, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  .card-link-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
   }
 
   .card-img {
-    aspect-ratio: 16/10;
-    background: var(--mid);
+    aspect-ratio: 1/1; /* Square ratio fills more space and fits covers better */
+    background: #151515;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -74,92 +142,301 @@ const directImageUrl = (image_url && typeof image_url === 'string' && image_url.
   .card-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s;
+    object-fit: cover; /* Back to cover but with square container to show more */
+    opacity: 0.95;
+    transition: transform 0.5s;
+    filter: saturate(1) contrast(1.05);
   }
 
   .product-card:hover .card-img img {
-    transform: scale(1.05);
+    transform: scale(1.1);
+    opacity: 1;
   }
 
-  .card-tag {
+  .bg-text-overlay {
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: 80px;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.03);
+    pointer-events: none;
+    line-height: 1;
+    z-index: 1;
+  }
+
+  .card-labels {
     position: absolute;
     top: 12px;
     left: 12px;
-    background: rgba(8, 8, 8, 0.85);
-    padding: 4px 10px;
-    border-radius: 2px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--white);
+    right: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
   }
 
-  .card-badge-new {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: var(--green);
-    color: var(--black);
-    padding: 3px 9px;
-    border-radius: 2px;
+  .label-tech {
     font-family: var(--font-mono);
     font-size: 9px;
-    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 2px;
     letter-spacing: 1px;
-    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .label-status {
+    background: #3ddc84;
+    color: #000;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    font-weight: 800;
   }
 
   .card-body {
-    padding: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    z-index: 3;
   }
 
   .card-name {
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--white);
-    margin-bottom: 12px;
-    text-align: left;
-    font-family: var(--font-body);
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 2px; /* further reduced */
+    line-height: 1.2;
   }
 
-  .card-footer {
+  .card-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.5;
+    margin-bottom: 8px; /* further reduced */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-rating {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 8px; /* further reduced */
   }
 
-  .price {
+  .rating-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .stars {
+    display: flex;
+    gap: 2px;
+    color: #333;
+    font-size: 11px;
+  }
+
+  .star.active {
+    color: #f6c944;
+  }
+
+  .rating-val {
+    color: #888;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .votes-count {
+    color: #555;
+    font-size: 12px;
+  }
+
+  .btn-like {
+    background: transparent;
+    border: none;
+    color: #444;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    position: relative;
+  }
+
+  .btn-like svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn-like:hover {
+    color: #ff4b4b;
+    transform: scale(1.2);
+  }
+
+  .btn-like.active {
+    color: #ff4b4b;
+  }
+
+  .btn-like.active svg {
+    fill: #ff4b4b;
+  }
+
+  .card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 12px; /* horizontal gap between prices */
+    margin-bottom: 12px; /* further reduced */
+  }
+
+  .old-price-container {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    color: #666;
+    text-decoration: line-through;
+    text-decoration-color: #3ddc84;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  .old-amount {
+    font-weight: 600;
+  }
+
+  .current-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    color: #fff;
+  }
+
+  .currency {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .amount {
     font-family: var(--font-display);
     font-size: 28px;
-    color: var(--white);
+    font-weight: 800;
     letter-spacing: 1px;
-    text-align: left;
   }
 
-  .price sup {
-    font-size: 14px;
-    vertical-align: super;
-    font-family: var(--font-body);
-    font-weight: 500;
+  .unit {
+    font-size: 12px;
+    color: #666;
+    margin-left: 4px;
+    font-weight: 600;
   }
 
-  .btn-card {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--white);
-    padding: 8px 16px;
+  .card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: auto;
+    position: relative;
+    z-index: 5;
+  }
+
+  .btn-details {
+    padding: 10px;
+    border: 1px solid #333;
+    color: #fff;
+    text-decoration: none;
     font-family: var(--font-mono);
     font-size: 10px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
     border-radius: 3px;
-    transition: background 0.2s, border-color 0.2s;
+    transition: all 0.2s;
   }
 
-  .product-card:hover .btn-card {
-    background: var(--mid);
-    border-color: var(--subtle);
+  .btn-details:hover {
+    background: #1a1a1a;
+    border-color: #666;
+  }
+
+  .btn-buy {
+    padding: 10px;
+    background: #3ddc84;
+    color: #000;
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    text-align: center;
+    border-radius: 3px;
+    transition: all 0.2s;
+  }
+
+  .btn-buy:hover {
+    background: #4de091;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(61, 220, 132, 0.3);
   }
 </style>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+
+  function initLikes() {
+    const likeBtns = document.querySelectorAll('.js-like-btn');
+    
+    likeBtns.forEach(btn => {
+      const id = btn.getAttribute('data-id');
+      const votesSpan = btn.closest('.card-rating').querySelector('.js-votes-count');
+      
+      // Check if already liked in this session
+      const hasLiked = localStorage.getItem(`liked_${id}`);
+      if (hasLiked) {
+        btn.classList.add('active');
+        btn.disabled = true;
+      }
+
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (localStorage.getItem(`liked_${id}`)) return;
+
+        // Visual feedback
+        btn.classList.add('active');
+        btn.style.transform = 'scale(1.4)';
+        setTimeout(() => btn.style.transform = '', 300);
+
+        try {
+          // RPC call to increment votes
+          const { error } = await supabase.rpc('increment_pack_votes', { target_id: id });
+          
+          if (!error) {
+            localStorage.setItem(`liked_${id}`, 'true');
+            btn.disabled = true;
+            
+            // Update UI count
+            if (votesSpan) {
+              const currentText = votesSpan.textContent;
+              const currentVotes = parseInt(currentText.replace(/[^0-9]/g, ''));
+              votesSpan.textContent = `(${(currentVotes + 1).toLocaleString()})`;
+            }
+          }
+        } catch (err) {
+          console.error('Error voting:', err);
+        }
+      });
+    });
+  }
+
+  // Initialize on load
+  initLikes();
+  
+  // Re-initialize after view transitions if using them
+  document.addEventListener('astro:after-swap', initLikes);
+</script>
