@@ -84,8 +84,8 @@ const [priceInt, priceDec] = priceDiscount.split('.');
 
   h2 {
     font-family: var(--font-display);
-    font-size: clamp(42px, 6vw, 84px);
-    line-height: 0.9;
+    font-size: clamp(32px, 5vw, 64px); /* Reducido para mayor elegancia */
+    line-height: 1;
     color: var(--white);
     text-transform: uppercase;
     margin: 0;
@@ -95,7 +95,7 @@ const [priceInt, priceDec] = priceDiscount.split('.');
     font-size: 16px;
     color: var(--subtle);
     max-width: 600px;
-    margin: 24px auto 0;
+    margin: 16px auto 0; /* Espaciado más compacto */
     line-height: 1.6;
     font-weight: 300;
   }
@@ -106,7 +106,7 @@ const [priceInt, priceDec] = priceDiscount.split('.');
     align-items: center;
     justify-content: center;
     gap: 32px;
-    margin: 60px 0;
+    margin: 32px 0; /* Mucho más compacto */
   }
 
   .price-old-offer {
@@ -137,8 +137,8 @@ const [priceInt, priceDec] = priceDiscount.split('.');
   .nav-cta-offer {
     background: #25d366;
     color: #000;
-    padding: 24px 60px;
-    font-size: 20px;
+    padding: 16px 48px; /* Botón más refinado */
+    font-size: 17px; /* Fuente más técnica */
     font-weight: 800;
     text-decoration: none;
     border-radius: 8px;
@@ -146,7 +146,7 @@ const [priceInt, priceDec] = priceDiscount.split('.');
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 500px;
+    max-width: 440px; /* Un poco más estrecho */
     margin: 0 auto;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     text-transform: uppercase;
@@ -160,7 +160,7 @@ const [priceInt, priceDec] = priceDiscount.split('.');
   }
 
   .offer-footer {
-    margin-top: 32px;
+    margin-top: 16px; /* Más pegada a la acción */
     color: var(--subtle);
     font-size: 13px;
     opacity: 0.6;
