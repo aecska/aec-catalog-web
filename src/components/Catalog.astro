@@ -2,20 +2,22 @@
 import { supabase } from '../lib/supabase';
 import ProductCard from './ProductCard.astro';
 
-// Consultar todos los packs de la base de datos con sus categorías
+// Consultar los 8 packs más destacados (4x2)
 const { data: packs, error } = await supabase
   .from('packs')
   .select('*, categories(*)')
-  .order('name', { ascending: true });
+  .order('rating', { ascending: false })
+  .limit(8);
 ---
 
 <section id="catalog">
-  <div class="catalog-header">
-    <div class="header-content fade-up">
-      <div class="section-label">Explorar Catálogo</div>
-      <h2>Lo más reciente<br />en la tienda</h2>
-      <p class="section-sub">Filtros profesionales para potenciar tus flujos de trabajo.</p>
-    </div>
+  <div class="catalog-header fade-up">
+    <div class="section-label">Lo más reciente en la tienda</div>
+    <h2>Mega Packs <span class="accent">Destacados</span></h2>
+    <p class="section-sub">
+      Herramientas de alto nivel diseñadas para potenciar <br />
+      tus flujos de trabajo profesionales.
+    </p>
   </div>
 
   <div class="products-grid">
@@ -31,83 +33,100 @@ const { data: packs, error } = await supabase
   </div>
 
   <div class="catalog-footer fade-up">
-    <a href="https://wa.me/19292100867?text=Hola! Quiero ver todo el catálogo dinámico" target="_blank" class="view-all">
-      Ver todos los packs →
+    <a href="/megapacks" class="view-all">
+      Ver todos los Mega Packs →
     </a>
   </div>
 </section>
 
 <style>
   #catalog {
-    padding: 100px 40px;
+    padding: 120px 40px;
     background: var(--black);
     position: relative;
     z-index: 2;
   }
 
   .catalog-header {
-    max-width: 1200px;
-    margin: 0 auto 60px;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    max-width: 900px;
+    margin: 0 auto 80px;
+    text-align: center;
+  }
+
+  .section-label {
+    background: rgba(61, 220, 132, 0.1);
+    color: var(--green);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: inline-block;
+    margin-bottom: 24px;
+    border: 1px solid rgba(61, 220, 132, 0.2);
   }
 
   h2 {
     font-family: var(--font-display);
-    font-size: clamp(38px, 5vw, 64px);
-    line-height: 1;
+    font-size: clamp(40px, 8vw, 80px);
+    line-height: 0.9;
     color: var(--white);
-    margin-bottom: 12px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
   }
 
   .section-sub {
     color: var(--subtle);
-    font-size: 16px;
-    font-weight: 300;
+    font-size: clamp(16px, 1.5vw, 18px);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    max-width: 1300px;
-    margin: 0 auto;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto 60px;
   }
 
   .empty-state {
     grid-column: 1 / -1;
-    padding: 80px 0;
+    padding: 100px 0;
     text-align: center;
     color: var(--muted);
     font-family: var(--font-mono);
     font-size: 14px;
     border: 1px dashed var(--border);
     border-radius: 8px;
+    opacity: 0.5;
   }
 
   .catalog-footer {
-    max-width: 1200px;
-    margin: 48px auto 0;
     display: flex;
     justify-content: center;
+    width: 100%;
   }
 
   .view-all {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--subtle);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--white);
+    padding: 16px 36px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+    font-weight: 600;
     text-decoration: none;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: color 0.2s;
+    transition: all 0.2s;
   }
 
   .view-all:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(61, 220, 132, 0.5);
     color: var(--green);
   }
-
   @media (max-width: 1200px) {
     .products-grid { grid-template-columns: repeat(3, 1fr); }
   }

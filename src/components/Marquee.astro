@@ -24,6 +24,18 @@
       <span class="sw-arch">ArchiCAD</span><span class="dot"></span>
       <span class="sw-bl">Blender</span><span class="dot"></span>
     </div>
+    <div class="marquee-item" aria-hidden="true">
+      <span class="sw-revit">Revit</span><span class="dot"></span>
+      <span class="sw-autocad">AutoCAD</span><span class="dot"></span>
+      <span class="sw-sketchup">SketchUp</span><span class="dot"></span>
+      <span class="sw-d5">D5 Render</span><span class="dot"></span>
+      <span class="sw-mel">Melamina</span><span class="dot"></span>
+      <span class="sw-excel">Excel</span><span class="dot"></span>
+      <span class="sw-3ds">3ds Max</span><span class="dot"></span>
+      <span class="sw-rhino">Rhino</span><span class="dot"></span>
+      <span class="sw-arch">ArchiCAD</span><span class="dot"></span>
+      <span class="sw-bl">Blender</span><span class="dot"></span>
+    </div>
   </div>
 </div>
 
@@ -42,19 +54,19 @@
   .marquee-track {
     display: flex;
     width: max-content;
-    animation: scroll 40s linear infinite;
+    animation: scroll 60s linear infinite;
+    gap: 32px;
   }
 
   @keyframes scroll {
     from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    to { transform: translateX(-33.333%); }
   }
 
   .marquee-item {
     display: flex;
     align-items: center;
     gap: 32px;
-    padding-right: 32px;
   }
 
   .marquee-item span {
