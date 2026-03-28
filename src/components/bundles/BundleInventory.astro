@@ -1,4 +1,6 @@
 ---
+import ProductCard from '../shared/ProductCard.astro';
+
 interface Props {
   packs: any[];
 }
@@ -14,30 +16,10 @@ const { packs } = Astro.props;
   </div>
 
   <div class="products-grid">
-    {packs.map((pack, index) => (
-      <a href={`/megapack/${pack.slug}`} class="product-card fade-up" style={`transition-delay: ${index * 0.05}s`}>
-        <div class="card-img">
-          <div class="card-tag">{pack.categories?.name || 'AEC'}</div>
-          {pack.badge && <div class="card-badge-new">{pack.badge}</div>}
-          <div class="card-img-inner">{pack.categories?.name || 'AEC'}</div>
-        </div>
-        <div class="card-body">
-          <div class="card-name">{pack.name}</div>
-          <p class="card-desc">{pack.hero_title || 'Acceso total a la librería técnica.'}</p>
-          
-          <div class="stars">
-            <span class="star">★★★★★</span>
-            <span class="star-count">{pack.rating || '4.9'} ({pack.votes || '123'})</span>
-          </div>
-          
-          <div class="card-footer">
-            <div class="price"><sup>$</sup>{pack.price || '8.50'}</div>
-            <div class="card-btns">
-              <span class="btn-card">VER INFO</span>
-            </div>
-          </div>
-        </div>
-      </a>
+    {packs.map((pack) => (
+      <div class="fade-up">
+        <ProductCard {...pack} isBundle={true} />
+      </div>
     ))}
   </div>
 </section>
@@ -89,177 +71,6 @@ const { packs } = Astro.props;
     gap: 20px;
     max-width: 1300px;
     margin: 0 auto;
-  }
-
-  /* CARD */
-  .product-card {
-    background: #141414;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .product-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(61, 220, 132, 0.3);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  }
-
-  .card-img {
-    aspect-ratio: 16/10;
-    background: #1a1a1a;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  }
-
-  .card-img-inner {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-display);
-    font-size: 48px;
-    opacity: 0.05;
-    transition: 0.4s;
-    color: var(--white);
-  }
-
-  .product-card:hover .card-img-inner {
-    opacity: 0.15;
-    transform: scale(1.1);
-  }
-
-  .card-tag {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--white);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    z-index: 2;
-  }
-
-  .card-badge-new {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: var(--green);
-    color: #000;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 800;
-    text-transform: uppercase;
-    z-index: 2;
-  }
-
-  /* CARD BODY */
-  .card-body {
-    padding: 24px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-name {
-    font-weight: 700;
-    font-size: 18px;
-    color: var(--white);
-    margin-bottom: 8px;
-    letter-spacing: -0.3px;
-  }
-
-  .card-desc {
-    font-size: 13px;
-    color: var(--subtle);
-    line-height: 1.5;
-    margin-bottom: 20px;
-    height: 40px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    font-weight: 300;
-  }
-
-  .stars {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 20px;
-  }
-
-  .star {
-    color: #d4a843;
-    font-size: 12px;
-  }
-
-  .star-count {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--subtle);
-    margin-left: 6px;
-    opacity: 0.7;
-  }
-
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: auto;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  .price {
-    font-family: var(--font-display);
-    font-size: 32px;
-    color: var(--white);
-    letter-spacing: -0.5px;
-  }
-
-  .price sup {
-    font-size: 16px;
-    vertical-align: super;
-    font-family: var(--font-body);
-    margin-right: 2px;
-    opacity: 0.8;
-  }
-
-  .btn-card {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--white);
-    padding: 10px 16px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    border-radius: 4px;
-    transition: all 0.2s;
-    letter-spacing: 1px;
-  }
-
-  .product-card:hover .btn-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--green);
-    color: var(--green);
   }
 
   @media (max-width: 600px) {
