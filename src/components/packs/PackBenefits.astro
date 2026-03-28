@@ -48,7 +48,7 @@ const benefits = pack.benefits && pack.benefits.length >= 5 ? pack.benefits : st
   }
 
   .container {
-    max-width: 1000px;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
@@ -91,13 +91,15 @@ const benefits = pack.benefits && pack.benefits.length >= 5 ? pack.benefits : st
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto;
   }
 
   .benefit-card {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 40px 20px;
-    border-radius: 16px;
+    padding: 30px 20px;
+    border-radius: 12px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -112,10 +114,10 @@ const benefits = pack.benefits && pack.benefits.length >= 5 ? pack.benefits : st
   }
 
   .benefit-icon {
-    font-size: 28px;
-    margin-bottom: 24px;
-    width: 60px;
-    height: 60px;
+    font-size: 24px;
+    margin-bottom: 20px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
