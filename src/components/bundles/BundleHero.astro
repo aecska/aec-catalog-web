@@ -233,9 +233,16 @@ const stats = bundle.hero_stats || [];
   }
 
   @media (max-width: 768px) {
-    #hero { padding-top: 120px; }
+    #hero { padding: 120px 20px 40px; }
     h1 { font-size: 60px; }
-    .stats-bar { gap: 20px; padding: 20px; }
+    .stats-bar { 
+      display: grid; 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 20px; 
+      padding: 20px; 
+      max-width: 400px;
+      margin: 0 auto;
+    }
     .stat-value { font-size: 32px; }
     .price-new-large { font-size: 60px; }
     .nav-cta-giant { padding: 18px 40px; font-size: 16px; width: 100%; }

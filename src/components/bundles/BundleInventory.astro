@@ -74,7 +74,11 @@ const { packs } = Astro.props;
   }
 
   @media (max-width: 600px) {
-    .catalog-section { padding: 80px 20px; }
-    .products-grid { grid-template-columns: 1fr; }
+    .catalog-section { padding: 40px 20px; }
+    .section-header { margin-bottom: 40px; }
+    .products-grid { 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 12px;
+    }
   }
 </style>
