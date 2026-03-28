@@ -324,6 +324,30 @@ const { data: bundles, error } = await supabase
     .btn-bundle-secondary { text-align: center; justify-content: center; }
   }
   @media (max-width: 600px) { 
-    .bundles-grid { grid-template-columns: 1fr; }
+    .bundles-grid { 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 10px; /* Más compacto para mobile */
+    }
+    .bundle-card { 
+      padding: 20px 12px; /* Reducción agresiva de espacio */
+    }
+    .bundle-name { 
+      font-size: 14px; /* Título más pequeño */
+    }
+    .bundle-desc {
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+    .price-new {
+      font-size: 24px;
+    }
+    .savings-tag {
+      font-size: 8px;
+      padding: 2px 6px;
+    }
+    .bundle-btns { 
+      grid-template-columns: 1fr; 
+      gap: 8px; 
+    }
   }
 </style>
