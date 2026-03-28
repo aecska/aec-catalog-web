@@ -16,15 +16,16 @@ const displayFaq = faq && faq.length > 0 ? faq : defaultFaq;
 
 <section id="faq">
   <div class="section-header fade-up">
-    <div class="section-label">FAQ BUNDLE</div>
-    <h2>DUDAS FRECUENTES</h2>
+    <div class="section-overtitle">— RESOLVIENDO DUDAS —</div>
+    <h2>PREGUNTAS <span class="accent-green">FRECUENTES</span></h2>
+    <p class="section-sub-faq">Todo lo que necesitas saber antes de dar el siguiente paso.</p>
   </div>
   
   <div class="faq-container">
     {displayFaq.map((item, index) => (
       <div class="faq-item fade-up" style={`transition-delay: ${index * 0.1}s`}>
         <div class="faq-question">
-          <span>{item.q}</span>
+          {item.q}
         </div>
         <div class="faq-answer">
           {item.a}
@@ -36,9 +37,8 @@ const displayFaq = faq && faq.length > 0 ? faq : defaultFaq;
 
 <style>
   #faq {
-    padding: 120px 40px;
+    padding: 100px 40px; /* Igual al diseño */
     background: #080808;
-    border-top: 1px solid rgba(255, 255, 255, 0.03);
   }
 
   .section-header {
@@ -47,7 +47,7 @@ const displayFaq = faq && faq.length > 0 ? faq : defaultFaq;
     margin: 0 auto 60px;
   }
 
-  .section-label {
+  .section-overtitle {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 4px;
@@ -58,104 +58,99 @@ const displayFaq = faq && faq.length > 0 ? faq : defaultFaq;
 
   h2 {
     font-family: var(--font-display);
-    font-size: clamp(38px, 5vw, 64px);
-    margin-bottom: 20px;
+    font-size: clamp(38px, 6vw, 76px);
+    margin-bottom: 16px;
     color: var(--white);
     text-transform: uppercase;
-    line-height: 1;
+    line-height: 0.9;
+  }
+
+  .accent-green {
+    color: var(--green);
+  }
+
+  .section-sub-faq {
+    font-size: 16px;
+    color: #888; /* Color del diseño master */
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-weight: 300;
   }
 
   .faq-container {
-    max-width: 850px;
+    max-width: 800px; /* Igual al diseño */
     margin: 0 auto;
     text-align: left;
   }
 
   .faq-item {
-    background: #111111;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
+    background: #141414; /* var(--card) del diseño */
+    border: 1px solid #1e1e1e; /* var(--border) del diseño */
+    border-radius: 8px; /* Igual al diseño */
     margin-bottom: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
   }
 
-  .faq-item:hover {
-    border-color: rgba(61, 220, 132, 0.2);
-  }
-
   .faq-question {
-    padding: 24px 32px;
+    padding: 20px 24px; /* Exacto al diseño */
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 15px; /* Exacto al diseño */
     color: var(--white);
-    transition: all 0.2s;
   }
 
   .faq-question::after {
     content: '+';
     color: var(--green);
-    font-size: 24px;
-    font-family: var(--font-mono);
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 20px; /* Exacto al diseño */
+    transition: 0.3s;
   }
 
-  .faq-item.active .faq-question::after {
+  /* Usamos 'is-open' para no chocar con las animaciones 'active' */
+  .faq-item.is-open .faq-question::after {
     transform: rotate(45deg);
-    color: #ff3b3b;
-  }
-
-  .faq-item.active .faq-question {
-    background: rgba(255, 255, 255, 0.02);
   }
 
   .faq-answer {
-    padding: 0 32px 32px;
+    padding: 0 24px 24px; /* Exacto al diseño */
     display: none;
-    color: var(--subtle);
-    font-size: 15px;
+    color: #888; /* var(--subtle) */
+    font-size: 14px;
     line-height: 1.6;
-    font-weight: 300;
-    border-top: 1px solid transparent;
   }
 
-  .faq-item.active .faq-answer {
+  .faq-item.is-open .faq-answer {
     display: block;
-    padding-top: 12px;
-    border-top-color: rgba(255, 255, 255, 0.03);
   }
 
   @media (max-width: 600px) {
     #faq { padding: 80px 20px; }
-    .faq-question { padding: 20px 24px; font-size: 15px; }
-    .faq-answer { padding: 0 24px 24px; font-size: 14px; }
+    .faq-question { padding: 18px 20px; font-size: 14px; }
+    .faq-answer { padding: 0 20px 20px; font-size: 13px; }
   }
 </style>
 
 <script>
   function initBundleFaq() {
-    document.querySelectorAll('.faq-question').forEach(q => {
-      q.addEventListener('click', () => {
-        const item = q.parentElement;
-        if (!item) return;
-        
-        // Toggle active class
-        item.classList.toggle('active');
-        
-        // Optional: Close other items (AEC accordion behavior)
-        /*
-        document.querySelectorAll('.faq-item').forEach(otherItem => {
-          if (otherItem !== item) otherItem.classList.remove('active');
-        });
-        */
-      });
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      if (question) {
+        // Usamos una clase única 'is-open' para NO interferir con las animaciones 'active'
+        question.onclick = () => {
+          item.classList.toggle('is-open');
+        };
+      }
     });
   }
 
+  // Ejecución inicial y reactiva
   initBundleFaq();
   document.addEventListener('astro:after-swap', initBundleFaq);
 </script>
