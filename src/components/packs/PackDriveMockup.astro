@@ -319,8 +319,39 @@ const finalVideoUrl = videoUrl && videoUrl !== '#' && videoUrl.trim() !== ''
   }
 
   @media (max-width: 900px) {
-    #access-process { padding: 60px 20px; }
-    .access-grid { grid-template-columns: 1fr; gap: 40px; }
+    #access-process { padding: 40px 0; }
+    .header { padding: 0 25px; margin-bottom: 40px; }
+    .access-grid { grid-template-columns: 1fr; gap: 32px; }
+    
+    .video-column { padding: 0 25px; }
+    .browser-mockup { width: 100%; border-radius: 8px; }
+    .browser-header { padding: 8px 10px; gap: 8px; }
+    .dot { width: 8px; height: 8px; }
+    .address-bar { padding: 4px 8px; }
+    .folder-path { font-size: 9px; }
+
+    .cards-column { 
+      display: grid; 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 12px; 
+      padding: 0 25px;
+    }
+
+    .trust-card { 
+      padding: 20px 12px; 
+      text-align: center;
+    }
+
+    .card-inner { 
+      flex-direction: column; 
+      gap: 12px; 
+      align-items: center; 
+    }
+
+    .card-info h3 { font-size: 13px; line-height: 1.2; margin-bottom: 4px; }
+    .card-info p { font-size: 11px; line-height: 1.3; }
+    .card-icon { width: 36px; height: 36px; }
+    
     .trust-card:hover { transform: translateY(-4px); }
   }
 </style>
