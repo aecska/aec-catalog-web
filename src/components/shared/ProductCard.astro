@@ -38,7 +38,7 @@ const accentColor = categories?.accent_color || 'var(--green)';
 // Helper to convert Drive URL
 const getDirectUrl = (url: string) => {
   if (!url) return '';
-  if (url.includes('drive.google.com')) {
+  if (url.includes('drive.google.com') || url.includes('drive.usercontent.google.com')) {
     // Handling /file/d/[ID]/view or ?id=[ID]
     const idMatch = url.match(/\/d\/(.+?)\//) || url.match(/[?&]id=(.+?)(&|$)/);
     const id = idMatch ? idMatch[1] : '';
