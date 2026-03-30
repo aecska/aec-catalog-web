@@ -60,12 +60,6 @@ const getChecklist = (desc: string) => {
           { (index === 1 || card.is_featured) && <div class="featured-tag"></div> }
           
           <div class="card-header">
-            <span class="card-icon">
-              {card.type === 'catalog' && '📁'}
-              {card.type === 'video' && '🎥'}
-              {card.type === 'drive' && '🚀'}
-              {!card.type && '✨'}
-            </span>
             <h3 class="card-title">{card.title || card.label}</h3>
           </div>
 
@@ -87,7 +81,7 @@ const getChecklist = (desc: string) => {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 6h16M4 12h16M4 18h7" />
         </svg>
-        Explorar Catálogo de Elementos
+        Explorar el Catálogo
       </button>
       
       <button class="btn-action primary open-modal-btn" data-url={pack.demo_video_url} data-type="video">
@@ -229,22 +223,16 @@ const getChecklist = (desc: string) => {
   }
 
   .card-header {
-    margin-bottom: 32px;
-  }
-
-  .card-icon {
-    font-size: 24px;
-    display: block;
-    margin-bottom: 16px;
-    opacity: 0.9;
+    margin-bottom: 24px;
   }
 
   .card-title {
     font-family: var(--font-display);
-    font-size: 20px;
+    font-size: 22px;
     color: var(--white);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    line-height: 1.2;
   }
 
   .card-list {
