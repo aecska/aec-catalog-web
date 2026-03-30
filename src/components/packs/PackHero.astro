@@ -25,7 +25,7 @@ const formatTitle = (title: string) => {
   <div class="hero-content">
     <div class="hero-header-row fade-up">
       <div class="software-label" style={`--accent: ${accentColor}`}>
-        BIBLIOTECA DE {pack.categories?.name || 'AEC'} PRO
+        {pack.hero_overtitle || `BIBLIOTECA DE ${pack.categories?.name || 'AEC'} PRO`}
       </div>
       <div class="stars-social">
         <span class="stars">★★★★★</span>
