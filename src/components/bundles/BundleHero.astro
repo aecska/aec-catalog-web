@@ -6,9 +6,8 @@ interface Props {
 const { bundle } = Astro.props;
 
 // Formatting prices
-const priceTotal = bundle.price_total ? Number(bundle.price_total).toFixed(2) : null;
-const priceDiscount = bundle.price_discount ? Number(bundle.price_discount).toFixed(2) : '0.00';
-const [priceInt, priceDec] = priceDiscount.split('.');
+const priceTotal = bundle.price_total ? Number(bundle.price_total).toLocaleString() : null;
+const priceDiscount = bundle.price_discount ? Number(bundle.price_discount).toLocaleString() : '0';
 
 const stats = bundle.hero_stats || [];
 ---
@@ -42,11 +41,11 @@ const stats = bundle.hero_stats || [];
 
     <div class="price-large fade-up" style="margin-top: 0; transition-delay: 0.4s">
       {priceTotal && <div class="price-old-large">${priceTotal}</div>}
-      <div class="price-new-large">${priceInt}<sup>.{priceDec}</sup></div>
+      <div class="price-new-large">${priceDiscount} <span style="font-size: 20px; font-family: var(--font-mono); margin-left: 8px; opacity: 0.6;">COP</span></div>
     </div>
 
     <div class="hero-actions fade-up" style="transition-delay: 0.5s">
-      <a href={`https://wa.me/573133144700?text=Hola! Quiero comprar el ${bundle.name} completo ($${priceDiscount} USD). Por favor envíame los métodos de pago.`} 
+      <a href={`https://wa.me/573133144700?text=Hola! Quiero comprar el ${bundle.name} completo ($${priceDiscount} COP). Por favor envíame los métodos de pago.`} 
          target="_blank" 
          class="nav-cta-giant">
         Quiero el {bundle.name} Completo

@@ -5,9 +5,8 @@ interface Props {
 
 const { bundle } = Astro.props;
 
-const priceTotal = bundle.price_total ? Number(bundle.price_total).toFixed(2) : null;
-const priceDiscount = bundle.price_discount ? Number(bundle.price_discount).toFixed(2) : '0.00';
-const [priceInt, priceDec] = priceDiscount.split('.');
+const priceTotal = bundle.price_total ? Number(bundle.price_total).toLocaleString() : null;
+const priceDiscount = bundle.price_discount ? Number(bundle.price_discount).toLocaleString() : '0';
 ---
 
 <section class="bundle-offer" id="final-offer">
@@ -26,13 +25,13 @@ const [priceInt, priceDec] = priceDiscount.split('.');
     
     <div class="price-large-offer">
       {priceTotal && <div class="price-old-offer">${priceTotal}</div>}
-      <div class="price-new-offer">${priceInt}<sup>.{priceDec}</sup></div>
+      <div class="price-new-offer">${priceDiscount} <span style="font-size: 24px; font-family: var(--font-mono); margin-left: 10px; opacity: 0.6;">COP</span></div>
     </div>
 
-    <a href={`https://wa.me/573133144700?text=Hola! Quiero comprar el ${bundle.name} completo ($${priceDiscount} USD). Por favor envíame los métodos de pago.`} 
+    <a href={`https://wa.me/573133144700?text=Hola! Quiero comprar el ${bundle.name} completo ($${priceDiscount} COP). Por favor envíame los métodos de pago.`} 
        target="_blank" 
        class="nav-cta-offer">
-      Comprar Todo por ${priceDiscount} USD
+      Comprar Todo por ${priceDiscount} COP
     </a>
     <p class="offer-footer">Incluye soporte VIP y acceso de por vida.</p>
   </div>

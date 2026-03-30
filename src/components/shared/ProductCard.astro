@@ -104,13 +104,13 @@ const fullStars = Math.floor(rating);
         {old_price && (
           <div class="old-price">
             <span class="old-currency">$</span>
-            <span class="old-amount">{old_price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+            <span class="old-amount">{old_price.toLocaleString(undefined, { minimumFractionDigits: 0 })}</span>
           </div>
         )}
         <div class="current-price">
           <span class="currency">$</span>
-          <span class="amount">{price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-          <span class="unit">USD</span>
+          <span class="amount">{price.toLocaleString(undefined, { minimumFractionDigits: 0 })}</span>
+          <span class="unit">COP</span>
         </div>
       </div>
     )}

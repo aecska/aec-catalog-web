@@ -63,7 +63,7 @@ const formatTitle = (title: string) => {
 
     <div class="hero-actions fade-up" style="transition-delay: 0.4s">
         <a href={`https://wa.me/573133144700?text=Hola! Me interesa comprar el ${pack.name}. Enviame los métodos de pago.`} target="_blank" class="btn-buy-giant" style={`--accent: ${accentColor}`}>
-          QUIERO ESTE PACK — ${pack.price ? Number(pack.price).toFixed(2) : '0.00'} USD
+          QUIERO ESTE PACK — ${pack.price ? Number(pack.price).toLocaleString() : '0'} COP
         </a>
       <div class="trust-signal">
         <span>🔒</span> Pago seguro 100% garantizado por WhatsApp

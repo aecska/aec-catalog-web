@@ -6,8 +6,8 @@ interface Props {
 
 const { pack, bundle } = Astro.props;
 
-// The Price is already in USD in the database (e.g., 8).
-const priceUSD = pack.price ? Number(pack.price).toFixed(2) : '0.00';
+// The Price is already in COP in the database (e.g., 20000).
+const priceCOP = pack.price ? Number(pack.price).toLocaleString() : '0';
 const accentColor = pack.categories?.accent_color || 'var(--green)';
 ---
 
@@ -22,7 +22,7 @@ const accentColor = pack.categories?.accent_color || 'var(--green)';
          class="btn-primary" 
          target="_blank"
          style={`background: ${accentColor}`}>
-        Quiero este Pack — ${priceUSD} USD
+        Quiero este Pack — ${priceCOP} COP
       </a>
       
       {bundle ? (
