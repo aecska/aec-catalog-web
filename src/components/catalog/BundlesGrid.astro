@@ -18,10 +18,12 @@ const { data: bundles, error } = await supabase
           <p class="bundle-description">{bundle.hero_subtitle || 'Acceso total a la colección AEC profesional.'}</p>
           
             <div class="bundle-pricing">
-              <div class="pricing-row">
+              <div class="pricing-row-main">
                 {bundle.price_total && <span class="price-original">${Number(bundle.price_total).toLocaleString()}</span>}
                 <span class="price-current"><sup>$</sup>{Number(bundle.price_discount).toLocaleString()}</span>
                 <span class="price-unit">COP</span>
+              </div>
+              <div class="pricing-row-savings">
                 <span class="discount-badge">AHORRAS {bundle.saving_percentage}%</span>
               </div>
             </div>
@@ -130,10 +132,16 @@ const { data: bundles, error } = await supabase
     margin-bottom: 32px;
   }
 
-  .pricing-row {
+  .pricing-row-main {
     display: flex;
     align-items: baseline;
     gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .pricing-row-savings {
+    margin-top: 8px;
+    display: flex;
   }
 
   .price-original {
@@ -262,15 +270,16 @@ const { data: bundles, error } = await supabase
     .price-current { font-size: 26px; }
     .price-current sup { font-size: 14px; }
     .bundle-pricing { margin-bottom: 20px; }
-    .pricing-row { 
-      flex-direction: row; 
-      flex-wrap: wrap;
-      align-items: baseline; 
+    .pricing-row-main { 
       gap: 5px; 
     }
+    .pricing-row-savings {
+      margin-top: 6px;
+    }
     .discount-badge {
-      width: 100%;
-      margin-top: 4px;
+      font-size: 9px;
+      padding: 3px 8px;
+      width: fit-content;
     }
     .btn-primary { padding: 12px; }
   }
