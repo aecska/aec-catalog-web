@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Hero from '../components/home/Hero.astro';
+import Marquee from '../components/home/Marquee.astro';
+import Process from '../components/home/Process.astro';
+import Catalog from '../components/home/Catalog.astro';
+import Bundles from '../components/home/Bundles.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import ClosingCTA from '../components/home/ClosingCTA.astro';
+import Footer from '../components/layout/Footer.astro';
+import MobileNav from '../components/layout/MobileNav.astro';
+---
+
+<Layout title="Ingeniería Extrema Media — Mega Packs para Arquitectura e Ingeniería">
+  <Navbar />
+  
+  <main>
+    <Hero />
+    <Marquee />
+    <Process />
+    <Catalog />
+    <Bundles />
+    <Testimonials />
+    <ClosingCTA />
+  </main>
+
+  <Footer />
+  <MobileNav />
+</Layout>
+
+<script>
+  // Script para manejar animaciones de aparición (Fade-up)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+<style is:global>
+  /* Asegurar que el main respete el navbar fijo */
+  main {
+    padding-top: 0;
+  }
+</style>

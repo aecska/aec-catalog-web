@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import BundlesHero from '../components/catalog/BundlesHero.astro';
+import BundlesGrid from '../components/catalog/BundlesGrid.astro';
+import BundlesUpsell from '../components/catalog/BundlesUpsell.astro';
+---
+
+<Layout title="Bundles Maestros — Ingeniería Extrema Media">
+  <Navbar />
+  
+  <main>
+    <BundlesHero />
+    <BundlesGrid />
+    <BundlesUpsell />
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  main {
+    background: #000;
+    min-height: 100vh;
+  }
+</style>
+
+<script>
+  // Animation on scroll
+  function initAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  }
+
+  initAnimations();
+  document.addEventListener('astro:after-swap', initAnimations);
+</script>
