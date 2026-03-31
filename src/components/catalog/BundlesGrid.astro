@@ -11,8 +11,8 @@ const { data: bundles, error } = await supabase
   <div class="container">
     <div class="grid-layout">
       {bundles && bundles.map((bundle) => (
-        <div class={`bundle-card fade-up ${bundle.price_discount > 30 ? 'featured' : ''}`}>
-          {bundle.price_discount > 30 && <span class="featured-badge">MÁS VENDIDO</span>}
+        <div class={`bundle-card fade-up ${Number(bundle.saving_percentage) > 30 ? 'featured' : ''}`}>
+          {Number(bundle.saving_percentage) > 30 && <span class="featured-badge">MÁS VENDIDO</span>}
           
           <h3 class="bundle-title">{bundle.name}</h3>
           <p class="bundle-description">{bundle.hero_subtitle || 'Acceso total a la colección AEC profesional.'}</p>
