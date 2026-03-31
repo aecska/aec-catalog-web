@@ -1,0 +1,55 @@
+﻿
+> aec-web@0.0.1 build
+> astro build
+
+[2m16:18:43[22m [34m[types][39m Generated [2m46ms[22m
+[2m16:18:43[22m [34m[build][39m output: [34m"static"[39m
+[2m16:18:43[22m [34m[build][39m mode: [34m"static"[39m
+[2m16:18:43[22m [34m[build][39m directory: [34mD:\aec2\aec-web\dist\[39m
+[2m16:18:43[22m [34m[build][39m Collecting build info...
+[2m16:18:43[22m [34m[build][39m [32mΓ£ô Completed in 62ms.[39m
+[2m16:18:43[22m [34m[build][39m Building static entrypoints...
+[33m[1m16:18:45[22m [WARN] [vite][39m [33m"matchHostname", "matchPathname", "matchPort" and "matchProtocol" are imported from external module "@astrojs/internal-helpers/remote" but never used in "node_modules/astro/dist/assets/utils/index.js".[39m
+[2m16:18:45[22m [34m[vite][39m [32mΓ£ô built in 1.34s[39m
+[2m16:18:45[22m [34m[vite][39m [32mΓ£ô built in 449ms[39m
+[2m16:18:45[22m [34m[build][39m Rearranging server assets...
+
+[42m[30m generating static routes [39m[49m
+[2m16:18:47[22m   [34mΓö£ΓöÇ[39m [2m/bundle/bundle-revit/index.html[22m [2m(+236ms)[22m 
+[2m16:18:47[22m   [34mΓö£ΓöÇ[39m [2m/bundle/bundle-autocad/index.html[22m [2m(+168ms)[22m 
+[2m16:18:47[22m   [34mΓö£ΓöÇ[39m [2m/bundle/bundle-melamina/index.html[22m [2m(+174ms)[22m 
+[2m16:18:47[22m   [34mΓö£ΓöÇ[39m [2m/bundle/bundle-d5render/index.html[22m [2m(+191ms)[22m 
+[2m16:18:47[22m   [34mΓö£ΓöÇ[39m [2m/bundle/bundle-sketchup/index.html[22m [2m(+176ms)[22m 
+[2m16:18:47[22m   [34mΓö£ΓöÇ[39m [2m/bundles/index.html[22m [2m(+144ms)[22m 
+[2m16:18:48[22m   [34mΓö£ΓöÇ[39m [2m/megapack/autocad-1/index.html[22m [2m(+328ms)[22m 
+[2m16:18:48[22m   [34mΓö£ΓöÇ[39m [2m/megapack/autocad-2/index.html[22m [2m(+342ms)[22m 
+[2m16:18:48[22m   [34mΓö£ΓöÇ[39m [2m/megapack/autocad-3/index.html[22m [2m(+302ms)[22m 
+[2m16:18:49[22m   [34mΓö£ΓöÇ[39m [2m/megapack/curso-ia-1/index.html[22m [2m(+277ms)[22m 
+[2m16:18:49[22m   [34mΓö£ΓöÇ[39m [2m/megapack/d5render-1/index.html[22m [2m(+239ms)[22m 
+[2m16:18:49[22m   [34mΓö£ΓöÇ[39m [2m/megapack/d5render-2/index.html[22m [2m(+247ms)[22m 
+[2m16:18:49[22m   [34mΓö£ΓöÇ[39m [2m/megapack/d5render-3/index.html[22m [2m(+303ms)[22m 
+[2m16:18:50[22m   [34mΓö£ΓöÇ[39m [2m/megapack/d5render-4/index.html[22m [2m(+249ms)[22m 
+[2m16:18:50[22m   [34mΓö£ΓöÇ[39m [2m/megapack/maxtree/index.html[22m [2m(+230ms)[22m 
+[2m16:18:50[22m   [34mΓö£ΓöÇ[39m [2m/megapack/megapack-cursos-1/index.html[22m [2m(+241ms)[22m 
+[2m16:18:50[22m   [34mΓö£ΓöÇ[39m [2m/megapack/melamina-1/index.html[22m [2m(+271ms)[22m 
+[2m16:18:51[22m   [34mΓö£ΓöÇ[39m [2m/megapack/melamina-2/index.html[22m [2m(+236ms)[22m 
+[2m16:18:51[22m   [34mΓö£ΓöÇ[39m [2m/megapack/melamina-3/index.html[22m [2m(+224ms)[22m 
+[2m16:18:51[22m   [34mΓö£ΓöÇ[39m [2m/megapack/presupuesto-1/index.html[22m [2m(+248ms)[22m 
+[2m16:18:51[22m   [34mΓö£ΓöÇ[39m [2m/megapack/revit-1/index.html[22m [2m(+243ms)[22m 
+[2m16:18:52[22m   [34mΓö£ΓöÇ[39m [2m/megapack/revit-2/index.html[22m [2m(+250ms)[22m 
+[2m16:18:52[22m   [34mΓö£ΓöÇ[39m [2m/megapack/revit-3/index.html[22m [2m(+264ms)[22m 
+[2m16:18:52[22m   [34mΓö£ΓöÇ[39m [2m/megapack/revit-4/index.html[22m [2m(+268ms)[22m 
+[2m16:18:52[22m   [34mΓö£ΓöÇ[39m [2m/megapack/revit-5/index.html[22m [2m(+250ms)[22m 
+[2m16:18:53[22m   [34mΓö£ΓöÇ[39m [2m/megapack/revit-6/index.html[22m [2m(+242ms)[22m 
+[2m16:18:53[22m   [34mΓö£ΓöÇ[39m [2m/megapack/revit-7/index.html[22m [2m(+241ms)[22m 
+[2m16:18:53[22m   [34mΓö£ΓöÇ[39m [2m/megapack/sketchup-1/index.html[22m [2m(+273ms)[22m 
+[2m16:18:53[22m   [34mΓö£ΓöÇ[39m [2m/megapack/sketchup-2/index.html[22m [2m(+233ms)[22m 
+[2m16:18:54[22m   [34mΓö£ΓöÇ[39m [2m/megapack/sketchup-3/index.html[22m [2m(+252ms)[22m 
+[2m16:18:54[22m   [34mΓö£ΓöÇ[39m [2m/megapack/texturas-1/index.html[22m [2m(+256ms)[22m 
+[2m16:18:54[22m   [34mΓö£ΓöÇ[39m [2m/megapacks/index.html[22m [2m(+346ms)[22m 
+[2m16:18:54[22m   [34mΓö£ΓöÇ[39m [2m/index.html[22m [2m(+333ms)[22m 
+[2m16:18:55[22m [32mΓ£ô Completed in 9.57s.
+[39m
+[2m16:18:55[22m [34m[build][39m [32mΓ£ô Completed in 11.43s.[39m
+[2m16:18:55[22m [34m[build][39m 33 page(s) built in [1m11.52s[22m
+[2m16:18:55[22m [34m[build][39m [1mComplete![22m
