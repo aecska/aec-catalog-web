@@ -186,7 +186,7 @@ const fullStars = Math.floor(rating);
 
   .card-labels {
     position: absolute;
-    top: 12px;
+    bottom: 12px;
     left: 12px;
     right: 12px;
     display: flex;
@@ -485,9 +485,10 @@ const fullStars = Math.floor(rating);
   function initLikes() {
     const likeBtns = document.querySelectorAll('.js-like-btn');
     
-    likeBtns.forEach(btn => {
+    likeBtns.forEach(el => {
+      const btn = el as HTMLButtonElement;
       const id = btn.getAttribute('data-id');
-      const votesSpan = btn.closest('.card-rating').querySelector('.js-votes-count');
+      const votesSpan = btn.closest('.card-rating')?.querySelector('.js-votes-count');
       
       // Check if already liked in this session
       const hasLiked = localStorage.getItem(`liked_${id}`);
